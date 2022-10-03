@@ -17,6 +17,7 @@
 #include "covariance/covarianceXsec.h"
 #include "covariance/covarianceOsc.h"
 #include "samplePDF/samplePDFFDBase.h"
+#include "yaml-cpp/yaml.h"
 
 #include "StructsDUNE.h"
 

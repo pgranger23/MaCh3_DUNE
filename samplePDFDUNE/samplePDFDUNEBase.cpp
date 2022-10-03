@@ -19,6 +19,12 @@ samplePDFDUNEBase::samplePDFDUNEBase(double pot, std::string mc_version, covaria
   //ETA - safety feature so you can't pass a NULL xsec_cov
   if(xsec_cov == NULL){std::cerr << "[ERROR:] You've passed me a NULL xsec covariance matrix... I need this to setup splines!" << std::endl; throw;}
   init(pot, mc_version, xsec_cov);          
+
+  /*
+  bNu = new BargerPropagator();
+  bNu->UseMassEigenstates(false);
+  bNu->SetOneMassScaleMode(false);
+  bNu->SetWarningSuppression(true); */
 }
 
 samplePDFDUNEBase::~samplePDFDUNEBase()
@@ -77,7 +83,7 @@ void samplePDFDUNEBase::init(double pot, std::string samplecfgfile, covarianceXs
   std::vector<int> sample_nutype = sample_manager->getNuType();
   std::vector<bool> sample_signal = sample_manager->getSignal(); */
 
-
+ /* 
   IsRHC = false;
   SampleDetID = 25;
   iselike = false;
@@ -92,7 +98,42 @@ void samplePDFDUNEBase::init(double pot, std::string samplecfgfile, covarianceXs
   std::vector<int> sample_oscnutype; sample_oscnutype.push_back(2);
   std::vector<int> sample_nutype; sample_nutype.push_back(2);
   std::vector<bool> sample_signal; sample_signal.push_back(false);
+*/  
 
+
+  std::vector<std::string> mtuple_files;
+  std::vector<std::string> spline_files;
+  std::vector<int> sample_vecno;
+  std::vector<int> sample_oscnutype;
+  std::vector<int> sample_nutype;
+  std::vector<bool> sample_signal;
+
+  //YAML 
+  //Sample
+  YAML::Node doc = YAML::LoadFile((char*)samplecfgfile.c_str());
+  mtupleprefix = doc["mtupleprefix"].as<std::string>();
+  mtuplesuffix = doc["mtuplesuffix"].as<std::string>();
+  splineprefix = doc["splineprefix"].as<std::string>();
+  splinesuffix = doc["splinesuffix"].as<std::string>();
+
+  IsRHC = doc["isrhc"].as<bool>();
+  iselike = doc["iselike"].as<bool>();
+  //SampleDetID = 25;
+  SampleDetID = doc["SampleDetID"].as<int>();
+  up_bnd = doc["up_bnd"].as<double>();
+  BinningOpt = 1;
+
+  //SubSamples
+  for(auto const &sample : doc["samples"]) {
+    mtuple_files.push_back(sample["mtuplefile"].as<std::string>());
+    spline_files.push_back(sample["splinefile"].as<std::string>());
+    sample_vecno.push_back(sample["samplevecno"].as<int>());
+    sample_oscnutype.push_back(sample["oscnutype"].as<int>());
+    sample_nutype.push_back(sample["nutype"].as<int>());
+    sample_signal.push_back(sample["signal"].as<bool>());
+  }
+  
+  std::cout << "YAML check mutpleprefix = " << mtupleprefix << std::endl;
   //ETA - only have support for erec and erec-theta binning options.
   //if you want to add in the option to do p-theta binning and enu-Q2
   //then just add in the binning option to the manager class and
@@ -116,7 +157,7 @@ void samplePDFDUNEBase::init(double pot, std::string samplecfgfile, covarianceXs
 
 
   // create dunemc storage
-  int nSamples = 1;
+  int nSamples = doc["NSubSamples"].as<int>();
   for (int i=0;i<nSamples;i++) {
     struct dunemc_base obj = dunemc_base();
     dunemcSamples.push_back(obj);
@@ -139,6 +180,7 @@ void samplePDFDUNEBase::init(double pot, std::string samplecfgfile, covarianceXs
 
   for(unsigned iSample=0 ; iSample < MCSamples.size() ; iSample++){
     setupFDMC(&dunemcSamples[sample_vecno[iSample]], &MCSamples[sample_vecno[iSample]], (splineprefix+spline_files[iSample]+splinesuffix).c_str());
+
   }
 
 
@@ -160,7 +202,7 @@ void samplePDFDUNEBase::init(double pot, std::string samplecfgfile, covarianceXs
 
   //ETA Don't forget the -1 on the size here, as it's number of bins not bin edges
   set1DBinning(sample_erec_bins.size()-1, erec_bin_edges);
-  set2DBinning(sample_erec_bins.size()-1, erec_bin_edges, sample_theta_bins.size()-1, theta_bin_edges); 
+  //set2DBinning(sample_erec_bins.size()-1, erec_bin_edges, sample_theta_bins.size()-1, theta_bin_edges); 
 
 }
 
@@ -228,7 +270,7 @@ void samplePDFDUNEBase::setupDUNEMC(const char *sampleFile, dunemc_base *duneobj
   _data->SetBranchStatus("LepNuAngle",1); 
   _data->SetBranchAddress("LepPDG",&_LepTheta); 
   _data->SetBranchStatus("Q2",1); 
-  _data->SetBranchAddress("Q2",&_Q2); 
+  //_data->SetBranchAddress("Q2",&_Q2); 
 
 
   TH1D* norm = (TH1D*)_sampleFile->Get("norm");
@@ -260,7 +302,7 @@ void samplePDFDUNEBase::setupDUNEMC(const char *sampleFile, dunemc_base *duneobj
   duneobj->osc_w = new double[duneobj->nEvents];
   duneobj->rw_erec = new double[duneobj->nEvents];
   duneobj->rw_theta = new double[duneobj->nEvents];
-  duneobj->rw_Q2 = new double[duneobj->nEvents];
+  //duneobj->rw_Q2 = new double[duneobj->nEvents];
   duneobj->beam_w = new double[duneobj->nEvents];
   duneobj->flux_w = new double[duneobj->nEvents];
   duneobj->skdet_w = new double[duneobj->nEvents];
@@ -312,11 +354,10 @@ void samplePDFDUNEBase::setupDUNEMC(const char *sampleFile, dunemc_base *duneobj
         //std::cout << "NUE EREC Energy" << std::endl;
       else {duneobj->rw_erec[i] = _erec;} // in GeV
       duneobj->rw_etru[i] = _ev; // in GeV
-      if ( i == 1 ) {std::cout << "Etrue = " << duneobj->rw_etru[i] << std::endl;}
       duneobj->rw_cvnnumu[i] = _cvnnumu; 
       duneobj->rw_cvnnue[i] = _cvnnue;
       duneobj->rw_theta[i] = _LepNuAngle;
-      duneobj->rw_Q2[i] = _Q2;
+      //duneobj->rw_Q2[i] = _Q2;
       duneobj->rw_isCC[i] = _isCC;
       duneobj->rw_nuPDGunosc[i] = _nuPDGunosc;
       duneobj->rw_nuPDG[i] = _nuPDG;
@@ -343,8 +384,8 @@ void samplePDFDUNEBase::setupDUNEMC(const char *sampleFile, dunemc_base *duneobj
       //Adjust SIMB modes into CC and NC
        
 
-      //duneobj->mode[i]=SIMBMode_ToMaCh3Mode(mode, _isCC);
-      duneobj->mode[i]= mode;
+      duneobj->mode[i]=SIMBMode_ToMaCh3Mode(mode, _isCC);
+      //duneobj->mode[i]= mode;
  
       duneobj->energyscale_w[i] = 1.0;
       
@@ -385,8 +426,6 @@ void samplePDFDUNEBase::setupFDMC(dunemc_base *duneobj, fdmc_base *fdobj, const 
   fdobj->YBin = new int[fdobj->nEvents];    
   fdobj->NomXBin = new int[fdobj->nEvents];
   fdobj->NomYBin = new int[fdobj->nEvents];
-  fdobj->XBin = new int [fdobj->nEvents];
-  fdobj->YBin = new int [fdobj->nEvents];;	 
   fdobj->rw_lower_xbinedge = new double [fdobj->nEvents];
   fdobj->rw_lower_lower_xbinedge = new double [fdobj->nEvents];
   fdobj->rw_upper_xbinedge = new double [fdobj->nEvents];
@@ -402,8 +441,9 @@ void samplePDFDUNEBase::setupFDMC(dunemc_base *duneobj, fdmc_base *fdobj, const 
   fdobj->osc_w = new double[fdobj->nEvents];
   fdobj->isNC = new bool[fdobj->nEvents];
   fdobj->rw_etru = new double*[fdobj->nEvents];
-  fdobj->nxsec_spline_pointers = new int[fdobj->nEvents];
-  fdobj->xsec_spline_pointers = new const double**[fdobj->nEvents];
+  fdobj->rw_vtx_x = new double*[fdobj->nEvents];
+  fdobj->rw_vtx_y = new double*[fdobj->nEvents];
+  fdobj->rw_vtx_z = new double*[fdobj->nEvents];
 
   switch(BinningOpt){
 	case 0:
@@ -415,6 +455,9 @@ void samplePDFDUNEBase::setupFDMC(dunemc_base *duneobj, fdmc_base *fdobj, const 
 		fdobj->x_var[iEvent] = &(duneobj->rw_erec[iEvent]);
 		fdobj->y_var[iEvent] = &(duneobj->dummy_y);//ETA - don't think we even need this as if we have a 1D sample we never need this, just not sure I like an unitialised variable in fdmc struct? 
 		fdobj->rw_etru[iEvent] = &(duneobj->rw_etru[iEvent]);
+		fdobj->rw_vtx_x[iEvent] = &(duneobj->rw_vtx_x[iEvent]);
+		fdobj->rw_vtx_y[iEvent] = &(duneobj->rw_vtx_y[iEvent]);
+		fdobj->rw_vtx_z[iEvent] = &(duneobj->rw_vtx_z[iEvent]);
 		fdobj->mode[iEvent] = &(duneobj->mode[iEvent]);
 		//ETA - set these to a dummy value to begin with, these get set in set1DBinning or set2DBinning
 		fdobj->NomXBin[iEvent] = -1;
@@ -430,6 +473,11 @@ void samplePDFDUNEBase::setupFDMC(dunemc_base *duneobj, fdmc_base *fdobj, const 
 		fdobj->isNC[iEvent] = !(duneobj->rw_isCC[iEvent]);
 		fdobj->flux_w[iEvent] = duneobj->flux_w[iEvent];
                 fdobj->SampleDetID = SampleDetID;
+                fdobj->nxsec_norm_pointers[iEvent] = 2;
+                fdobj->xsec_norm_pointers[iEvent] = new const double*[fdobj->nxsec_norm_pointers[iEvent]];
+                fdobj->xsec_norm_pointers[iEvent][0] = &(duneobj->pot_s);
+                fdobj->xsec_norm_pointers[iEvent][1] = &(duneobj->norm_s);
+                fdobj->xsec_norm_pointers[iEvent][2] = &(duneobj->rw_berpaacvwgt[iEvent]);
 	  }
 	  break;
 	case 2:
@@ -478,8 +526,8 @@ void samplePDFDUNEBase::setupFDMC(dunemc_base *duneobj, fdmc_base *fdobj, const 
 
 double samplePDFDUNEBase::calcFuncSystWeight(int iSample, int iEvent) 
 {
-  std::cout << "calcFuncSystWeight" << std::endl;
-  return 0.0;
+  //std::cout << "calcFuncSystWeight" << std::endl;
+  return 1.0;
 }
 
 

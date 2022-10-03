@@ -1,4 +1,5 @@
-set(APPS SamplePDFDUNE_test)
+set(APPS SamplePDFDUNE_test
+         jointFitDUNE)
 
 foreach(a ${APPS})
 	  add_executable(${a} ${a}.cpp)

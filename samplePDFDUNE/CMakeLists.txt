@@ -1,17 +1,20 @@
 set(SamplePDFDUNE_implementation_files 
-	samplePDFDUNEBase.cpp) 
+	samplePDFDUNEBase.cpp
+	samplePDFDUNENDBase.cpp) 
 
 set(SamplePDFDUNE_header_files 
-	samplePDFDUNEBase.h)
+	samplePDFDUNEBase.h
+	samplePDFDUNENDBase.h)
 
 add_library(SamplePDFDUNE SHARED ${SamplePDFDUNE_implementation_files})
 target_include_directories(SamplePDFDUNE PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
-target_link_libraries(SamplePDFDUNE MaCh3 yaml-cpp)
+target_include_directories(SamplePDFDUNE PUBLIC "/vols/t2k/users/ljw20/software/duneanaobj")
+target_link_libraries(SamplePDFDUNE MaCh3 yaml-cpp duneanaobj)
 
-if(NOT ${CPU_ONLY})
+#if(NOT ${CPU_ONLY})
   set_target_properties(SamplePDFDUNE PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
   target_link_libraries(SamplePDFDUNE probGpu)
-else()
-endif()
+#else()
+#endif()
 
 install(TARGETS SamplePDFDUNE DESTINATION lib)

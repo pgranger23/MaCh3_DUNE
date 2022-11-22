@@ -1,5 +1,9 @@
 set(APPS SamplePDFDUNE_test
-         jointFitDUNE)
+         SamplePDFDUNE_NDTest
+         jointFitDUNE
+         DUNE_LLHscan_osc
+         sigmavarDUNEFD
+         probtest)
 
 foreach(a ${APPS})
 	  add_executable(${a} ${a}.cpp)

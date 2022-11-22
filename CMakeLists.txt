@@ -32,19 +32,25 @@ CPMFindPackage(
     GITHUB_REPOSITORY mach3-software/MaCh3
 )
 
+CPMFindPackage(
+    NAME duneanaobj
+    GITHUB_REPOSITORY "luketpickering/duneanaobj"
+    GIT_TAG "master"
+)
+
 #If Single thread is chosen MultiThread flags are omitted
-if(NOT ${SINGLE_THREAD_ONLY})
+if(${SINGLE_THREAD_ONLY})
 
   #Compile and link options (Should be in experiment project but copied in case CORE is built alone) 
   add_compile_options(-I${CUDA_SAMPLES}/common/inc)
-  add_compile_options(-g -fopenmp -O3 -Wextra -DMULTITHREAD)
-  add_link_options(-fopenmp -DMULTITHREAD)
+  add_compile_options(-g -O3 -Wextra)
 
 else()
 
   #Compile and link options (Should be in experiment project but copied in case CORE is built alone) 
   add_compile_options(-I${CUDA_SAMPLES}/common/inc)
-  add_compile_options(-g -O3 -Wextra)
+  add_compile_options(-g -fopenmp -O3 -Wextra -DMULTITHREAD)
+  add_link_options(-fopenmp -DMULTITHREAD)
 
 endif()
 

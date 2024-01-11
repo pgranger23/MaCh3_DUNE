@@ -472,29 +472,8 @@ void samplePDFDUNEBase::setupDUNEMC(const char *sampleFile, dunemc_base *duneobj
 }
 
 double samplePDFDUNEBase::ReturnKinematicParameter(std::string KinematicParameter, int iSample, int iEvent){
-
- KinematicTypes KinPar = static_cast<KinematicTypes>(ReturnKinematicParameterFromString(KinematicParameter)); 
- double KinematicValue = -999;
-
- switch(KinPar){
-   case kTrueNeutrinoEnergy:
-	 KinematicValue = dunemcSamples[iSample].rw_etru[iEvent]; 
-	 break;
-   case kTrueXPos:
-	 KinematicValue = dunemcSamples[iSample].rw_vtx_x[iEvent];
-	   break;
-   case kTrueYPos:
-	 KinematicValue = dunemcSamples[iSample].rw_vtx_y[iEvent];
-	   break;
-   case kTrueZPos:
-	 KinematicValue = dunemcSamples[iSample].rw_vtx_z[iEvent];
-	   break;
-   default:
-	 std::cout << "[ERROR]: " << __FILE__ << ":" << __LINE__ << " Did not recognise Kinematic Parameter type..." << std::endl;
-	 throw;
- }
-
-  return KinematicValue;
+  KinematicTypes KinPar = static_cast<KinematicTypes>(ReturnKinematicParameterFromString(KinematicParameter)); 
+  return ReturnKinematicParameter(KinPar, iSample, iEvent);
 }
 
 double samplePDFDUNEBase::ReturnKinematicParameter(double KinematicVariable, int iSample, int iEvent){
@@ -514,7 +493,7 @@ double samplePDFDUNEBase::ReturnKinematicParameter(double KinematicVariable, int
    case kTrueZPos:
 	 KinematicValue = dunemcSamples[iSample].rw_vtx_z[iEvent];
 	   break;
-   default:
+  default:
 	 std::cout << "[ERROR]: " << __FILE__ << ":" << __LINE__ << " Did not recognise Kinematic Parameter type..." << std::endl;
 	 throw;
  }

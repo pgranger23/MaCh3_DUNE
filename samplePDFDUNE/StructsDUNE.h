@@ -60,7 +60,6 @@ std::vector<double> get_default_CAFana_bins(){
 }
 
 enum KinematicTypes {
-
   kTrueNeutrinoEnergy = 0,
   kRecoNeutrinoEnergy = 1,
   kTrueQ2 = 2,

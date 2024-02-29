@@ -1,4 +1,3 @@
-set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # CMake version check
 cmake_minimum_required(VERSION 3.17 FATAL_ERROR)  
@@ -16,9 +15,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 if(NOT DEFINED CMAKE_BUILD_TYPE OR 
     "${CMAKE_BUILD_TYPE}x" STREQUAL "x")
-  set(CMAKE_BUILD_TYPE Debug) #TODO: Change to release when OK
+  set(CMAKE_BUILD_TYPE Release) #TODO: Change to release when OK
 endif()
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Changes default install path to be a subdirectory of the build dir.
 # Can set build dir at configure time with -DCMAKE_INSTALL_PREFIX=/install/path

@@ -116,8 +116,8 @@ find_package(MaCh3)
 if(NOT MaCh3_FOUND)
   CPMFindPackage(
       NAME MaCh3
-      GIT_TAG "v1.2.0_alpha"
-      GITHUB_REPOSITORY mach3-software/MaCh3
+      GIT_TAG "optimize"
+      GITHUB_REPOSITORY pgranger23/MaCh3
   )
 else()
   ##KS: This ensure that all executables that are in core will be moved
@@ -168,6 +168,30 @@ set_target_properties(MaCh3DUNECompilerOptions PROPERTIES EXPORT_NAME CompilerOp
 if(PSYCHE_FOUND)
   target_compile_definitions(MaCh3DUNECompilerOptions INTERFACE PSYCHESETUP)
 endif()
+
+target_compile_options(MaCh3DUNECompilerOptions INTERFACE
+    -g                      # Generate debug information
+    -Wextra                 # Enable extra warning flags
+    -Wall                   # Enable all standard warning flags
+    -pedantic               # Enforce strict ISO compliance (all versions of GCC, Clang >= 3.2)
+    -Wshadow                # Warn when a variable declaration shadows one from an outer scope
+    -Wuninitialized         # Warn about uninitialized variables
+    -Wnon-virtual-dtor      # Warn when a class with virtual functions has a non-virtual destructor
+    -Woverloaded-virtual    # Warn when a function declaration hides a virtual function from a base class
+    -Wformat=2              # Warn on security issues around functions that format output (ie printf)
+    -Wunused                # Warn on anything being unused
+    -Wredundant-decls       # Warn about multiple declarations of the same entity. Useful for code cleanup.
+    -fno-omit-frame-pointer # Don't omit frame pointers
+    -march=native           # Generate code for the host machine's architecture
+    #-Wstrict-aliasing=2    # Helps detect potential aliasing issues that could lead to undefined behavior.
+    #-Wuseless-cast         # Warn if you perform a cast to the same type (only in GCC >= 4.8)
+    #-Wpadded               # Warn when padding is added to a structure or class for alignment
+    #-Wnull-dereference     # Warn if a null dereference is detected (only in GCC >= 6.0)
+    #-Wold-style-cast       # Warn for c-style casts
+    #-Wconversion           # Warn on type conversions that may lose data
+    #-Werror                # Treat Warnings as Errors
+)
+
 target_include_directories(MaCh3DUNECompilerOptions
   INTERFACE
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>

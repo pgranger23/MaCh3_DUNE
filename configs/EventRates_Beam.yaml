@@ -17,7 +17,7 @@ General:
   Fitter:
     FitTestLikelihood: false
   MCMC:
-    NSteps: 2000
+    NSteps: 10
     AutoSave: 10000
   Output:
     FileName: "TestEventRates.root"

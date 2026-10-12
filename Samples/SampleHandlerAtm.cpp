@@ -468,12 +468,15 @@ void SampleHandlerAtm::SetupDetectorSystematicRatios() {
       TH1* Histogram = RatioHistograms[iSyst][SampIndex];
       int HistogramBinIndex = -1;
 
-      //DB Added support for 2D ratio histograms (and extension to 3D if we get that far). Current inputs are only in 1D so higher-D needs validating
+      //DB Added support for higher dimension ratio histograms (and extension to 3D if we get that far). Current inputs are only in 1D so higher-D needs validating
       if (Histogram->InheritsFrom(TH1::Class())) {
 	HistogramBinIndex = Histogram->FindBin(dunemcSamples[iEvent].rw_erec);
       } else if (Histogram->InheritsFrom(TH2::Class())) {
 	TH2* Histogram2D = static_cast<TH2*>(Histogram);
 	HistogramBinIndex = Histogram2D->FindBin(dunemcSamples[iEvent].rw_erec,dunemcSamples[iEvent].rw_theta);
+      } else if (Histogram->InheritsFrom(TH3::Class())) {
+	TH3* Histogram3D = static_cast<TH3*>(Histogram);
+	HistogramBinIndex = Histogram3D->FindBin(dunemcSamples[iEvent].rw_ehad,dunemcSamples[iEvent].rw_elep,dunemcSamples[iEvent].rw_theta);
       } else {
 	std::cerr << "Do not have support for 3D detector systematic binning yet" << std::endl;
 	throw;

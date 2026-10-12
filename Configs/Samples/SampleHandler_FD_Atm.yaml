@@ -14,7 +14,7 @@ InputFiles:
   #InputSplines: "Inputs/Atmospherics/Splines/merged_new_systs_wmec_wheader.root"
   InputSplines: ""
 
-  DetectorSystematicsFileName: "Inputs/Atmospherics/ModBoxA_ratio.root"
+  DetectorSystematicsFileName: "Inputs/Atmospherics/DetectorSystematicRatioHistograms.root"
   
 NuOsc:
   NuOscConfigFile: "Configs/NuOsc/CUDAProb3_SubSampling_ProdHAvg_EarthSysts.yaml"

@@ -16,6 +16,9 @@
 #include <Eigen/Dense>
 #include "DUNEUtils.h"
 
+#include "TH2.h"
+#include "TH3.h"
+
 #pragma GCC diagnostic pop
 
 SampleHandlerAtm::SampleHandlerAtm(std::string mc_version_, ParameterHandlerGeneric* xsec_cov_, const std::shared_ptr<OscillationHandler>&  Oscillator_) : SampleHandlerBase(mc_version_, xsec_cov_, Oscillator_) {

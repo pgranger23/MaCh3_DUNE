@@ -9,11 +9,11 @@ NuOsc:
 
 InputFiles:
   # Highest Priority: If an eigen file is provided, use that instead of reading any CAF file
-  EigenFile: "AtmSample.eig"
-  EigenFileMD5Sum: "f1dd030957ce0fdc2b935619cdb08c59"
+  EigenFile: "" #AtmSample.eig"
+  EigenFileMD5Sum: "" #f1dd030957ce0fdc2b935619cdb08c59"
 
   # Middle Priority: Path to a single CAF file to use
-  FileName: "" #"Inputs/Atmospherics/CAFs/caf_new_sum.2.6M_weighted.root"
+  FileName: "Inputs/Atmospherics/CAFs/caf_new_sum.2.6M_weighted.root"
 
   # Lowest Priority: If there are multiple CAF files for a production, point this to that directory.
   # **Warning**: This loads any and all ROOT files in that directory so be wary of throwing many CAFs from many productions into a single directory

@@ -74,6 +74,31 @@ void SampleHandlerAtm::Init() {
   //DB Input file containing the detector systematic spectra ratios, with the expectation that HistogramTitle is formatted as SYSTEMATICNAME_SAMPLENAME
   if (SampleManager->raw()["InputFiles"]["DetectorSystematicsFileName"]) {
     fDetectorSystematicsFileName = Get<std::string>(SampleManager->raw()["InputFiles"]["DetectorSystematicsFileName"],__FILE__,__LINE__);
+
+    //DB Read the expected dimension binning "configuration" from the config
+    YAML::Node const& DetectorSystematicManager = (SampleManager->raw()["InputFiles"]["DetectorSystematicsConfiguration"]);
+    if (!DetectorSystematicManager) {
+      MACH3LOG_ERROR("[\"InputFiles\"][\"DetectorSystematicsConfiguration\"] not provided in Sample Config");
+      throw MaCh3Exception(__FILE__, __LINE__);
+    }
+
+    for (const auto& item : DetectorSystematicManager) {
+      std::string Key = item.first.as<std::string>();
+      std::vector<int> KinematicParIndices;
+      for (const auto& dimension : item.second) {
+	std::string Dimension = dimension.as<std::string>();
+	KinematicParIndices.push_back(KinematicParametersDUNE.at(Dimension));
+      }
+      DetectorSystematicDimensionMap[Key] = KinematicParIndices;
+    }
+
+    for (const auto& [key, values] : DetectorSystematicDimensionMap) {
+      std::string tmpString = "";
+      for (const auto& param : values) {
+	tmpString += ReversedKinematicParametersDUNE.at(param)+", ";
+      }
+      MACH3LOG_INFO("Detector systematic {} configured with the following dimensions: {}",key,tmpString);
+    }
   } else {
     fDetectorSystematicsFileName = "";
   }
@@ -488,6 +513,12 @@ void SampleHandlerAtm::SetupDetectorSystematicRatios() {
     if (ParHandler->IsParFromGroup(iParam,"DetectorSystematic")) {
       std::string ParamName = ParHandler->GetParFancyName(iParam);
       DetectorSystematicParameterNames.push_back(ParamName);
+
+      //DB Check that the dimensions for this parameter are in the configured map
+      if (DetectorSystematicDimensionMap.count(ParamName) == 0) {
+	MACH3LOG_ERROR("Detector Systematic Parameter {} has no configuration to determine what the dimensions of the ratio spectra are binned in",ParamName);
+	throw MaCh3Exception(__FILE__, __LINE__);
+      }
     }
   }
 
@@ -543,20 +574,36 @@ void SampleHandlerAtm::SetupDetectorSystematicRatios() {
       TH1* Histogram = RatioHistograms[iSyst][SampIndex];
       int HistogramBinIndex = -1;
 
+      //DB Check how many dimensions were configured
+      std::vector<int> ConfiguredDimensions = DetectorSystematicDimensionMap.at(DetectorSystematicParameterNames[iSyst]);
+      size_t nConfiguredDimensions = ConfiguredDimensions.size();
+
       //DB Added support for higher-dimension ratio histograms (and extension to 3D if we get that far). Current inputs are only in 1D so higher-D needs validating
       //   Assumes that 1D is reconstructed neutrino energy
       //   Assumes that 2D is reconstructed neutrino energy and direction
       //   Assumes that 3D is reconstructed hadronic energy, leptonic energy, and direction      
-      if (Histogram->InheritsFrom(TH1::Class())) {
-	HistogramBinIndex = Histogram->FindBin(dunemcSamples[iEvent].rw_erec);
-      } else if (Histogram->InheritsFrom(TH2::Class())) {
+      if (Histogram->GetDimension() == 1) {
+	if (nConfiguredDimensions != 1) {
+	  MACH3LOG_ERROR("Misconfigured Detector Systematics Parameter {} - Config has given {} dimension for the spectra histogram, whereas the histogram itself has 1 dimension",DetectorSystematicParameterNames[iSyst],nConfiguredDimensions);
+	  throw MaCh3Exception(__FILE__, __LINE__);
+	}
+	HistogramBinIndex = Histogram->FindBin(*GetPointerToKinematicParameter(ConfiguredDimensions[0],static_cast<int>(iEvent)));
+      } else if (Histogram->GetDimension() == 2) {
+	if (nConfiguredDimensions != 2) {
+          MACH3LOG_ERROR("Misconfigured Detector Systematics Parameter {} - Config has given {} dimension for the spectra histogram, whereas the histogram itself has 2 dimensions",DetectorSystematicParameterNames[iSyst],nConfiguredDimensions);
+          throw MaCh3Exception(__FILE__, __LINE__);
+	}
 	TH2* Histogram2D = static_cast<TH2*>(Histogram);
-	HistogramBinIndex = Histogram2D->FindBin(dunemcSamples[iEvent].rw_erec,dunemcSamples[iEvent].rw_theta);
-      } else if (Histogram->InheritsFrom(TH3::Class())) {
+	HistogramBinIndex = Histogram2D->FindBin(*GetPointerToKinematicParameter(ConfiguredDimensions[0],static_cast<int>(iEvent)),*GetPointerToKinematicParameter(ConfiguredDimensions[1],static_cast<int>(iEvent)));
+      } else if (Histogram->GetDimension() == 3) {
+	if (nConfiguredDimensions != 3) {
+          MACH3LOG_ERROR("Misconfigured Detector Systematics Parameter {} - Config has given {} dimension for the spectra histogram, whereas the histogram itself has 3 dimensions",DetectorSystematicParameterNames[iSyst],nConfiguredDimensions);
+          throw MaCh3Exception(__FILE__, __LINE__);
+	}
 	TH3* Histogram3D = static_cast<TH3*>(Histogram);
-	HistogramBinIndex = Histogram3D->FindBin(dunemcSamples[iEvent].rw_ehad,dunemcSamples[iEvent].rw_elep,dunemcSamples[iEvent].rw_theta);
+	HistogramBinIndex = Histogram3D->FindBin(*GetPointerToKinematicParameter(ConfiguredDimensions[0],static_cast<int>(iEvent)),*GetPointerToKinematicParameter(ConfiguredDimensions[1],static_cast<int>(iEvent)),*GetPointerToKinematicParameter(ConfiguredDimensions[2],static_cast<int>(iEvent)));
       } else {
-	MACH3LOG_ERROR("Do not have support for 3D detector systematic binning yet");
+	MACH3LOG_ERROR("Found detector systematic ratio histogram which has more than 3 dimensions");
 	throw MaCh3Exception(__FILE__, __LINE__);
       }
 

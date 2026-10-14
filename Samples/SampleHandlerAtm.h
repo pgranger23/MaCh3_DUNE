@@ -160,6 +160,7 @@ protected:
   void SetupDetectorSystematicRatios();
   std::string fDetectorSystematicsFileName;
   std::vector<std::string> DetectorSystematicParameterNames;
+  std::unordered_map<std::string,std::vector<int>> DetectorSystematicDimensionMap;
   
   /// Enum defining CAF->Eigen transformation
   enum Variables{rw_erec,rw_ehad,rw_elep,rw_theta,SampleIndex,nupdg,nupdgUnosc,OscChannelIndex,mode,rw_isCC,Target,enu_true,coszenith_true,flux_w,MinDistToWall,eid,nVariables};

@@ -55,7 +55,14 @@ void SampleHandlerAtm::Init() {
   
   if (SampleManager->raw()["InputFiles"]["EigenFile"]) {
     EigenInputFile = Get<std::string>(SampleManager->raw()["InputFiles"]["EigenFile"],__FILE__,__LINE__);
-    EigenInputFileMD5Sum = Get<std::string>(SampleManager->raw()["InputFiles"]["EigenFileMD5Sum"],__FILE__,__LINE__);
+    std::string EigenInputFileMD5Sum = Get<std::string>(SampleManager->raw()["InputFiles"]["EigenFileMD5Sum"],__FILE__,__LINE__);
+
+    if (EigenInputFile!="") {
+      if (!CompareMD5Sum(EigenInputFileMD5Sum, EigenInputFile)) {
+	MACH3LOG_ERROR("Eigen Input file MD5Sum does not match the expectation from the config file");
+	throw MaCh3Exception(__FILE__, __LINE__);
+      }
+    }
   } else {
     EigenInputFile = "";
   }
@@ -67,6 +74,14 @@ void SampleHandlerAtm::Init() {
   // Per-event spline weights (optional)
   if (SampleManager->raw()["InputFiles"]["InputSplines"]) {
     fInputSplines = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplines"],__FILE__,__LINE__);
+    std::string InputSplinesMD5Sum = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplinesMD5Sum"],__FILE__,__LINE__);
+
+    if (fInputSplines!="") {
+      if (!CompareMD5Sum(InputSplinesMD5Sum, fInputSplines)) {
+	MACH3LOG_ERROR("Input Splines MD5Sum does not match the expectation from the config file");
+	throw MaCh3Exception(__FILE__, __LINE__);
+      }
+    }
   } else {
     fInputSplines = "";
   }
@@ -74,7 +89,14 @@ void SampleHandlerAtm::Init() {
   //DB Input file containing the detector systematic spectra ratios, with the expectation that HistogramTitle is formatted as SYSTEMATICNAME_SAMPLENAME
   if (SampleManager->raw()["InputFiles"]["DetectorSystematicsFileName"]) {
     fDetectorSystematicsFileName = Get<std::string>(SampleManager->raw()["InputFiles"]["DetectorSystematicsFileName"],__FILE__,__LINE__);
-
+    std::string DetectorSystematicsFileMD5Sum = Get<std::string>(SampleManager->raw()["InputFiles"]["DetectorSystematicsFileMD5Sum"],__FILE__,__LINE__);
+    if (fDetectorSystematicsFileName!="") {
+      if (!CompareMD5Sum(DetectorSystematicsFileMD5Sum, fDetectorSystematicsFileName)) {
+	MACH3LOG_ERROR("Detector Systematic Ratio file MD5Sum does not match the expectation from the config file");
+	throw MaCh3Exception(__FILE__, __LINE__);
+      }
+    }
+    
     //DB Read the expected dimension binning "configuration" from the config
     YAML::Node const& DetectorSystematicManager = (SampleManager->raw()["InputFiles"]["DetectorSystematicsConfiguration"]);
     if (!DetectorSystematicManager) {
@@ -210,7 +232,6 @@ int SampleHandlerAtm::ReadFromEigen() {
   Eigen::MatrixXd Matrix;
 
   MACH3LOG_INFO("Reading Eigen matrix from:{}",EigenInputFile);
-  CompareMD5Sum(EigenInputFileMD5Sum,EigenInputFile);
   ReadEigenMatrixFromFile(EigenInputFile.c_str(),Matrix);
 
   int nEntries = static_cast<int>(Matrix.rows());

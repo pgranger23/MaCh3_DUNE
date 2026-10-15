@@ -170,8 +170,6 @@ protected:
   
   /// File path to binary file which contains Eigen::MatrixXd
   std::string EigenInputFile;
-  /// Known MD5 Checksum of the binary file
-  std::string EigenInputFileMD5Sum;
 };
 
 #endif

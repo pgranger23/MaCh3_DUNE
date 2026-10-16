@@ -60,6 +60,9 @@ PlotSliceHistograms:
     RecoHadronEnergy: "Reco. Hadronic Energy (GeV)"
     RecoLeptonEnergy: "Reco. Leptonic Energy (GeV)"
 
+EventRates:
+  PrintIntegral: false
+
 # LLH Scan settings
 LLHScan:
     # don't make LLH for certain systematic groups

@@ -33,15 +33,15 @@ struct dunemc_base { // Store variables used in fitting
   
   double Target; //Target the interaction was on
   
-  int nupdg;
-  int nupdgUnosc;
-  int rw_isCC;
+  int neutrinoflavour_interacting;
+  int neutrinoflavour_generated;
+  int IsCC;
   double OscChannelIndex;
   
-  double rw_erec;
-  double enu_true;
+  double neutrinoenergy_reco;
+  double neutrinoenergy_true;
 
-  double flux_w;
+  double weights_flux;
   double mode;
 
   // Analysis sample
@@ -49,13 +49,13 @@ struct dunemc_base { // Store variables used in fitting
 };
 
 struct dunemc_atm : public dunemc_base { // Store variables used by SampleHandlerAtm
-  double rw_theta;  
+  double coszenith_reco;  
   double coszenith_true;
-  uint eid; //Event ID in the original CAF file (for per-event spline loading)
+  uint eventID; //Event ID in the original CAF file (for per-event spline loading)
   double MinDistToWall;
 
-  double rw_ehad;
-  double rw_elep;
+  double hadronicenergy_reco;
+  double leptonicenergy_reco;
   
   double TotalDetectorSystematicWeight;
   std::vector<double> DetectorSystematicRatios;

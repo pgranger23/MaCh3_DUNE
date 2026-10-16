@@ -36,9 +36,15 @@ void SampleHandlerAtm::Init() {
   //DB IsELike determines which reconstruction algorithm gets applied to which samples
   std::vector<std::string> EnabledSamples = Get<std::vector<std::string>>(SampleManager->raw()["Samples"], __FILE__ , __LINE__);
   IsELike.resize(GetNSamples());
+  BinningVariables.resize(GetNSamples());
   for(int iSample=0;iSample<GetNSamples();iSample++){
     const std::string TempTitle = EnabledSamples[iSample];
     IsELike[iSample] = Get<int>(SampleManager->raw()[TempTitle]["SampleOptions"]["IsELike"],__FILE__,__LINE__);
+
+    std::vector<std::string> VarStr = (SampleManager->raw()[TempTitle]["Binning"]["VarStr"] && SampleManager->raw()[TempTitle]["Binning"]["VarStr"].IsScalar()) ?
+      std::vector<std::string>{Get<std::string>(SampleManager->raw()[TempTitle]["Binning"]["VarStr"], __FILE__, __LINE__)} :
+      Get<std::vector<std::string>>(SampleManager->raw()[TempTitle]["Binning"]["VarStr"],__FILE__, __LINE__);
+    BinningVariables[iSample] = VarStr;
   }
 
   //DB Multiplicative scaling factor on the base exposure of the MC
@@ -220,7 +226,7 @@ void SampleHandlerAtm::RegisterFunctionalParameters() {
 void SampleHandlerAtm::AddAdditionalWeightPointers() {
   //DB ToDo: Try to "group" as many fixed weights as possible to reduce needless multiple multiplications
   for (size_t i = 0; i < dunemcSamples.size(); ++i) {
-    MCEvents[i].total_weight_pointers.push_back(&(dunemcSamples[i].flux_w));
+    MCEvents[i].total_weight_pointers.push_back(&(dunemcSamples[i].weights_flux));
     MCEvents[i].total_weight_pointers.push_back(&(ExposureScaling));
     MCEvents[i].total_weight_pointers.push_back(&(dunemcSamples[i].TotalDetectorSystematicWeight));    
   }  
@@ -239,22 +245,22 @@ int SampleHandlerAtm::ReadFromEigen() {
 
   //DB The below needs modifying any time a new variable is read from, or derived from, the CAF file
   for (size_t iEvent=0;iEvent<dunemcSamples.size();++iEvent) {
-    dunemcSamples[iEvent].rw_erec = Matrix(iEvent,Variables::rw_erec);
-    dunemcSamples[iEvent].rw_ehad = Matrix(iEvent,Variables::rw_ehad);
-    dunemcSamples[iEvent].rw_elep = Matrix(iEvent,Variables::rw_elep);
-    dunemcSamples[iEvent].rw_theta = Matrix(iEvent,Variables::rw_theta);    
+    dunemcSamples[iEvent].neutrinoenergy_reco = Matrix(iEvent,Variables::neutrinoenergy_reco);
+    dunemcSamples[iEvent].hadronicenergy_reco = Matrix(iEvent,Variables::hadronicenergy_reco);
+    dunemcSamples[iEvent].leptonicenergy_reco = Matrix(iEvent,Variables::leptonicenergy_reco);
+    dunemcSamples[iEvent].coszenith_reco = Matrix(iEvent,Variables::coszenith_reco);    
     dunemcSamples[iEvent].SampleIndex = static_cast<int>(Matrix(iEvent,Variables::SampleIndex));
-    dunemcSamples[iEvent].nupdg = static_cast<int>(Matrix(iEvent,Variables::nupdg));
-    dunemcSamples[iEvent].nupdgUnosc = static_cast<int>(Matrix(iEvent,Variables::nupdgUnosc));
+    dunemcSamples[iEvent].neutrinoflavour_interacting = static_cast<int>(Matrix(iEvent,Variables::neutrinoflavour_interacting));
+    dunemcSamples[iEvent].neutrinoflavour_generated = static_cast<int>(Matrix(iEvent,Variables::neutrinoflavour_generated));
     dunemcSamples[iEvent].OscChannelIndex = Matrix(iEvent,Variables::OscChannelIndex);
     dunemcSamples[iEvent].mode = Matrix(iEvent,Variables::mode);
-    dunemcSamples[iEvent].rw_isCC = static_cast<int>(Matrix(iEvent,Variables::rw_isCC));
+    dunemcSamples[iEvent].IsCC = static_cast<int>(Matrix(iEvent,Variables::IsCC));
     dunemcSamples[iEvent].Target = static_cast<int>(Matrix(iEvent,Variables::Target));
-    dunemcSamples[iEvent].enu_true = Matrix(iEvent,Variables::enu_true);
+    dunemcSamples[iEvent].neutrinoenergy_true = Matrix(iEvent,Variables::neutrinoenergy_true);
     dunemcSamples[iEvent].coszenith_true = Matrix(iEvent,Variables::coszenith_true);    
-    dunemcSamples[iEvent].flux_w = Matrix(iEvent,Variables::flux_w);
+    dunemcSamples[iEvent].weights_flux = Matrix(iEvent,Variables::weights_flux);
     dunemcSamples[iEvent].MinDistToWall = Matrix(iEvent,Variables::MinDistToWall);
-    dunemcSamples[iEvent].eid = static_cast<uint>(Matrix(iEvent,Variables::eid));
+    dunemcSamples[iEvent].eventID = static_cast<uint>(Matrix(iEvent,Variables::eventID));
   }
 
   return nEntries;
@@ -265,22 +271,22 @@ void SampleHandlerAtm::TransferToEigen(std::string FileName) {
 
   //DB The below needs modifying any time a new variable is read from, or derived from, the CAF file
   for (size_t iEvent=0;iEvent<dunemcSamples.size();++iEvent) {
-    Matrix(iEvent,Variables::rw_erec) = dunemcSamples[iEvent].rw_erec;
-    Matrix(iEvent,Variables::rw_ehad) = dunemcSamples[iEvent].rw_ehad;
-    Matrix(iEvent,Variables::rw_elep) = dunemcSamples[iEvent].rw_elep;
-    Matrix(iEvent,Variables::rw_theta) = dunemcSamples[iEvent].rw_theta;
+    Matrix(iEvent,Variables::neutrinoenergy_reco) = dunemcSamples[iEvent].neutrinoenergy_reco;
+    Matrix(iEvent,Variables::hadronicenergy_reco) = dunemcSamples[iEvent].hadronicenergy_reco;
+    Matrix(iEvent,Variables::leptonicenergy_reco) = dunemcSamples[iEvent].leptonicenergy_reco;
+    Matrix(iEvent,Variables::coszenith_reco) = dunemcSamples[iEvent].coszenith_reco;
     Matrix(iEvent,Variables::SampleIndex) = dunemcSamples[iEvent].SampleIndex;
-    Matrix(iEvent,Variables::nupdg) = dunemcSamples[iEvent].nupdg;
-    Matrix(iEvent,Variables::nupdgUnosc) = dunemcSamples[iEvent].nupdgUnosc;
+    Matrix(iEvent,Variables::neutrinoflavour_interacting) = dunemcSamples[iEvent].neutrinoflavour_interacting;
+    Matrix(iEvent,Variables::neutrinoflavour_generated) = dunemcSamples[iEvent].neutrinoflavour_generated;
     Matrix(iEvent,Variables::OscChannelIndex) = dunemcSamples[iEvent].OscChannelIndex;
     Matrix(iEvent,Variables::mode) = dunemcSamples[iEvent].mode;
-    Matrix(iEvent,Variables::rw_isCC) = dunemcSamples[iEvent].rw_isCC;    
+    Matrix(iEvent,Variables::IsCC) = dunemcSamples[iEvent].IsCC;    
     Matrix(iEvent,Variables::Target) = dunemcSamples[iEvent].Target;
-    Matrix(iEvent,Variables::enu_true) = dunemcSamples[iEvent].enu_true;
+    Matrix(iEvent,Variables::neutrinoenergy_true) = dunemcSamples[iEvent].neutrinoenergy_true;
     Matrix(iEvent,Variables::coszenith_true) = dunemcSamples[iEvent].coszenith_true;    
-    Matrix(iEvent,Variables::flux_w) = dunemcSamples[iEvent].flux_w;
+    Matrix(iEvent,Variables::weights_flux) = dunemcSamples[iEvent].weights_flux;
     Matrix(iEvent,Variables::MinDistToWall) = dunemcSamples[iEvent].MinDistToWall;
-    Matrix(iEvent,Variables::eid) = dunemcSamples[iEvent].eid;        
+    Matrix(iEvent,Variables::eventID) = dunemcSamples[iEvent].eventID;        
   }
 
   MACH3LOG_INFO("Writing Eigen matrix to:{}",FileName);
@@ -462,28 +468,28 @@ int SampleHandlerAtm::SetupExperimentMC() {
       //DB Save the event information twice; once under the assumption of generated nue(bar) and the other generated as a numu(bar)
       struct dunemc_atm currentEvent_FromNuE;
       
-      currentEvent_FromNuE.rw_erec = RecoENu;
-      currentEvent_FromNuE.rw_ehad = RecoEHad;
-      currentEvent_FromNuE.rw_elep = RecoELep;            
-      currentEvent_FromNuE.rw_theta = RecoCZ;
+      currentEvent_FromNuE.neutrinoenergy_reco = RecoENu;
+      currentEvent_FromNuE.hadronicenergy_reco = RecoEHad;
+      currentEvent_FromNuE.leptonicenergy_reco = RecoELep;            
+      currentEvent_FromNuE.coszenith_reco = RecoCZ;
       currentEvent_FromNuE.SampleIndex = SampIndex;
-      currentEvent_FromNuE.nupdg = InteractingPDG;
-      currentEvent_FromNuE.nupdgUnosc = (InteractingPDG > 0) ? 12 : -12;
-      currentEvent_FromNuE.OscChannelIndex = static_cast<double>(GetOscChannel(OscillationChannels, currentEvent_FromNuE.nupdgUnosc, currentEvent_FromNuE.nupdg));
+      currentEvent_FromNuE.neutrinoflavour_interacting = InteractingPDG;
+      currentEvent_FromNuE.neutrinoflavour_generated = (InteractingPDG > 0) ? 12 : -12;
+      currentEvent_FromNuE.OscChannelIndex = static_cast<double>(GetOscChannel(OscillationChannels, currentEvent_FromNuE.neutrinoflavour_generated, currentEvent_FromNuE.neutrinoflavour_interacting));
       currentEvent_FromNuE.mode = M3Mode;
-      currentEvent_FromNuE.rw_isCC = sr->mc.nu[0].iscc;
+      currentEvent_FromNuE.IsCC = sr->mc.nu[0].iscc;
       currentEvent_FromNuE.Target = kTarget_Ar;
-      currentEvent_FromNuE.enu_true = TrueNeutrinoEnergy;
+      currentEvent_FromNuE.neutrinoenergy_true = TrueNeutrinoEnergy;
       currentEvent_FromNuE.coszenith_true = -TrueNuMomentumVector.y(); // +Y in CAF files translates to +Z in typical CosZ
-      currentEvent_FromNuE.flux_w = xsec_w*flux_nue_w;
+      currentEvent_FromNuE.weights_flux = xsec_w*flux_nue_w;
       currentEvent_FromNuE.MinDistToWall = MinDist;
-      currentEvent_FromNuE.eid = static_cast<uint>(iTreeEntry);
+      currentEvent_FromNuE.eventID = static_cast<uint>(iTreeEntry);
       
       struct dunemc_atm currentEvent_FromNuMu = currentEvent_FromNuE;
       
-      currentEvent_FromNuMu.nupdgUnosc = (InteractingPDG > 0) ? 14 : -14;
-      currentEvent_FromNuMu.OscChannelIndex = static_cast<double>(GetOscChannel(OscillationChannels, currentEvent_FromNuMu.nupdgUnosc, currentEvent_FromNuMu.nupdg));
-      currentEvent_FromNuMu.flux_w = xsec_w*flux_numu_w;
+      currentEvent_FromNuMu.neutrinoflavour_generated = (InteractingPDG > 0) ? 14 : -14;
+      currentEvent_FromNuMu.OscChannelIndex = static_cast<double>(GetOscChannel(OscillationChannels, currentEvent_FromNuMu.neutrinoflavour_generated, currentEvent_FromNuMu.neutrinoflavour_interacting));
+      currentEvent_FromNuMu.weights_flux = xsec_w*flux_numu_w;
 
       //DB Save the information into the MC struct
       dunemcSamples.emplace_back(std::move(currentEvent_FromNuE));
@@ -513,10 +519,10 @@ int SampleHandlerAtm::SetupExperimentMC() {
 void SampleHandlerAtm::SetupMC() {
   //DB Pass the Core-required information over 
   for(int iEvent = 0 ;iEvent < int(GetNEvents()) ; ++iEvent) {
-    MCEvents[iEvent].enu_true = dunemcSamples[iEvent].enu_true;
-    MCEvents[iEvent].isNC = !dunemcSamples[iEvent].rw_isCC;
-    MCEvents[iEvent].nupdg = dunemcSamples[iEvent].nupdg;
-    MCEvents[iEvent].nupdgUnosc = dunemcSamples[iEvent].nupdgUnosc;
+    MCEvents[iEvent].enu_true = dunemcSamples[iEvent].neutrinoenergy_true;
+    MCEvents[iEvent].isNC = !dunemcSamples[iEvent].IsCC;
+    MCEvents[iEvent].nupdg = dunemcSamples[iEvent].neutrinoflavour_interacting;
+    MCEvents[iEvent].nupdgUnosc = dunemcSamples[iEvent].neutrinoflavour_generated;
     MCEvents[iEvent].NominalSample = dunemcSamples[iEvent].SampleIndex;
     MCEvents[iEvent].coszenith_true = dunemcSamples[iEvent].coszenith_true;
   }
@@ -678,17 +684,17 @@ const double* SampleHandlerAtm::GetPointerToKinematicParameter(const int KinPar,
   //DB For any new variable to plot, it needs to be added here
   switch (KinPar) {
   case kTrueNeutrinoEnergy:
-    return &(dunemcSamples[iEvent].enu_true);
+    return &(dunemcSamples[iEvent].neutrinoenergy_true);
   case kRecoNeutrinoEnergy:
-    return &(dunemcSamples[iEvent].rw_erec);
+    return &(dunemcSamples[iEvent].neutrinoenergy_reco);
   case kRecoHadronEnergy:
-    return &(dunemcSamples[iEvent].rw_ehad);
+    return &(dunemcSamples[iEvent].hadronicenergy_reco);
   case kRecoLeptonEnergy:
-    return &(dunemcSamples[iEvent].rw_elep);    
+    return &(dunemcSamples[iEvent].leptonicenergy_reco);    
   case kTrueCosZ:
     return &(dunemcSamples[iEvent].coszenith_true);
   case kRecoCosZ:
-    return &(dunemcSamples[iEvent].rw_theta);
+    return &(dunemcSamples[iEvent].coszenith_reco);
   case kOscChannel:
     return &(dunemcSamples[iEvent].OscChannelIndex);
   case kMode:

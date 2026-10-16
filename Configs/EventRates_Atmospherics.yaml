@@ -49,6 +49,17 @@ General:
   StartFromPos: false
   PosFileName: "chain_0.root"
 
+PlotSliceHistograms:
+  InputHistogramFileName: "DuneEventRates.root"
+  SliceAxis: 2
+  LogX: true
+  LogY: true
+  NumColumns: 5
+  FancyTitles:
+    RecoCosineZ: "Reco. cos(#theta_{Z})"
+    RecoHadronEnergy: "Reco. Hadronic Energy (GeV)"
+    RecoLeptonEnergy: "Reco. Leptonic Energy (GeV)"
+
 # LLH Scan settings
 LLHScan:
     # don't make LLH for certain systematic groups

@@ -66,7 +66,7 @@ SplineHandlerFactoryDUNE::SplineHandlerFactoryDUNE(ParameterHandlerGeneric* xsec
                 // Collect event IDs for per-event response function mapping
                 std::vector<uint> eventIndices(dunemcSamples.size());
                 for (size_t i = 0; i < dunemcSamples.size(); ++i) {
-                    eventIndices[i] = dunemcSamples[i].eid;
+                    eventIndices[i] = dunemcSamples[i].eventID;
                 }
 
                 // Fetch spline parameters applicable to this sample

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Samples/BinningHandler.h"
+
 #include <iomanip>
 #include <vector>
 #include <iostream>
@@ -113,4 +115,133 @@ inline bool CompareMD5Sum(std::string KnownSum, std::string FilePathToCheck) {
   
   MACH3LOG_INFO("MD5 Sums are identical!");
   return true;
+}
+
+inline std::vector<std::unique_ptr<TH2D>> Make2DSlices(const TH1* hist, const BinningHandler& binning, int iSample, std::vector<std::string> BinningVariables, int sliceAxis = 0) {
+  if (!hist)
+    throw std::invalid_argument("Null TH1 pointer");
+  
+  if (binning.GetNDim(iSample) != 3)
+    throw std::runtime_error("Expected 3D binning");
+  
+  if (!binning.IsUniform(iSample))
+    throw std::runtime_error("Requires Cartesian (Uniform) binning");
+  
+  if (sliceAxis < 0 || sliceAxis >= 3)
+    throw std::invalid_argument("Invalid slice axis");
+  
+  if (hist->GetNbinsX() != binning.GetNBins(iSample))
+    throw std::runtime_error("TH1 bin count mismatch");
+  
+  // Determine which axes to display.
+  std::array<int, 2> axes;
+  int a = 0;
+  
+  for (int d = 0; d < 3; ++d) {
+    if (d != sliceAxis)
+      axes[a++] = d;
+  }
+  
+  const int xAxis = axes[0];
+  const int yAxis = axes[1];
+  
+  const auto xEdges = binning.GetBinEdges(iSample, xAxis);
+  const auto yEdges = binning.GetBinEdges(iSample, yAxis);
+  const auto sEdges = binning.GetBinEdges(iSample, sliceAxis);
+  
+  const int nx = binning.GetNAxisBins(iSample, xAxis);
+  const int ny = binning.GetNAxisBins(iSample, yAxis);
+  const int ns = binning.GetNAxisBins(iSample, sliceAxis);
+  
+  std::vector<std::unique_ptr<TH2D>> slices;
+  slices.reserve(ns);
+  
+  for (int s = 0; s < ns; ++s) {
+    
+    const TString name = Form("%s_slice%d_bin%d", hist->GetName(), sliceAxis, s);
+    const TString title = Form("%s: %.3g - %.3g;%s;%s", BinningVariables[sliceAxis].c_str(), sEdges[s], sEdges[s+1], BinningVariables[xAxis].c_str(), BinningVariables[yAxis].c_str());
+
+    auto h2 = std::make_unique<TH2D>(name, title, nx, xEdges.data(), ny, yEdges.data());
+
+    h2->SetDirectory(nullptr);
+    
+    for (int ix = 0; ix < nx; ++ix) {
+      for (int iy = 0; iy < ny; ++iy) {
+	
+	std::vector<int> indices(3);
+	
+	indices[sliceAxis] = s;
+	indices[xAxis] = ix;
+	indices[yAxis] = iy;
+	
+	// MaCh3 returns zero-based sample-local bin.
+	const int flatBin = binning.GetBinSafe(iSample, indices);
+	
+	// ROOT TH1 bins start at 1.
+	const int rootBin = flatBin + 1;
+	
+	h2->SetBinContent(ix + 1, iy + 1, hist->GetBinContent(rootBin));
+      }
+    }
+    
+    slices.push_back(std::move(h2));
+  }
+  
+  return slices;
+}
+
+std::unique_ptr<TCanvas> Plot2DSlices(const std::vector<std::unique_ptr<TH2D>>& slices, const std::string& canvasName = "Slices", bool LogX = false, bool LogY = false, int nCols = 5) {
+  const int nSlices = static_cast<int>(slices.size());
+  
+  if (nSlices == 0)
+    return nullptr;
+  
+  nCols = std::max(1, std::min(nCols, nSlices));
+  const int nRows = (nSlices + nCols - 1) / nCols;
+  
+  auto canvas = std::make_unique<TCanvas>(canvasName.c_str(),canvasName.c_str(),350 * nCols,320 * nRows);
+  canvas->Divide(nCols, nRows, 0.005, 0.005);
+  
+  // Find global Z range across all slices.
+  double zMin = slices[0]->GetMinimum();
+  double zMax = slices[0]->GetMaximum();
+  
+  for (const auto& hist : slices) {
+    zMin = std::min(zMin, hist->GetMinimum());
+    zMax = std::max(zMax, hist->GetMaximum());
+  }
+  
+  gStyle->SetOptStat(0);
+  
+  for (int i = 0; i < nSlices; ++i) {
+    canvas->cd(i + 1);
+
+    gPad->SetLogx(LogX);
+    gPad->SetLogy(LogY);
+    
+    gPad->SetRightMargin(0.15);
+    gPad->SetLeftMargin(0.15);
+    gPad->SetBottomMargin(0.15);
+    gPad->SetTopMargin(0.12);
+    
+    auto* hist = slices[i].get();
+    
+    hist->SetMinimum(zMin);
+    hist->SetMaximum(zMax);
+    
+    hist->GetXaxis()->SetTitleSize(0.045);
+    hist->GetYaxis()->SetTitleSize(0.045);
+    hist->GetZaxis()->SetTitleSize(0.045);
+    
+    hist->GetXaxis()->SetLabelSize(0.035);
+    hist->GetYaxis()->SetLabelSize(0.035);
+    hist->GetZaxis()->SetLabelSize(0.035);
+    
+    hist->Draw("COLZ");
+  }
+  
+  canvas->cd();
+  canvas->Update();
+  
+  return canvas;
 }

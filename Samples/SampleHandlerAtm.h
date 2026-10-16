@@ -35,6 +35,14 @@ public:
   /// @brief Convert dunemc_atm struct object to Eigen::MatrixXd and write to binary file
   void TransferToEigen(std::string FileName);
 
+  BinningHandler* GetBinningHandler() const {
+    return Binning.get();
+  }
+
+  std::vector<std::string> GetSampleBinningVariables(int iSample) {
+    return BinningVariables.at(iSample);
+  }
+
 protected:
   /// @brief Initialises object
   void Init();
@@ -163,13 +171,15 @@ protected:
   std::unordered_map<std::string,std::vector<int>> DetectorSystematicDimensionMap;
   
   /// Enum defining CAF->Eigen transformation
-  enum Variables{rw_erec,rw_ehad,rw_elep,rw_theta,SampleIndex,nupdg,nupdgUnosc,OscChannelIndex,mode,rw_isCC,Target,enu_true,coszenith_true,flux_w,MinDistToWall,eid,nVariables};
+  enum Variables{neutrinoenergy_reco,hadronicenergy_reco,leptonicenergy_reco,coszenith_reco,SampleIndex,neutrinoflavour_interacting,neutrinoflavour_generated,OscChannelIndex,mode,IsCC,Target,neutrinoenergy_true,coszenith_true,weights_flux,MinDistToWall,eventID,nVariables};
 
   std::string InputFileName;
   std::string InputFileDirectory;  
   
   /// File path to binary file which contains Eigen::MatrixXd
   std::string EigenInputFile;
+
+  std::vector<std::vector<std::string>> BinningVariables;
 };
 
 #endif

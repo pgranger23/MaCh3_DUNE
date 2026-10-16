@@ -9,6 +9,7 @@ foreach(app
 	Variations
 	Predictive
 	ConvertToEigen
+	PlotSliceHistograms
       )
 
     add_executable(${app} ${app}.cpp)

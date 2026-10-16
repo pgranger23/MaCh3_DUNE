@@ -79,17 +79,17 @@ void SampleHandlerAtm::Init() {
   
   // Per-event spline weights (optional)
   if (SampleManager->raw()["InputFiles"]["InputSplines"]) {
-    fInputSplines = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplines"],__FILE__,__LINE__);
+    std::string InputSplineFile = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplines"],__FILE__,__LINE__);
     std::string InputSplinesMD5Sum = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplinesMD5Sum"],__FILE__,__LINE__);
 
-    if (fInputSplines!="") {
-      if (!CompareMD5Sum(InputSplinesMD5Sum, fInputSplines)) {
+    if (InputSplineFile!="") {
+      if (!CompareMD5Sum(InputSplinesMD5Sum, InputSplineFile)) {
 	MACH3LOG_ERROR("Input Splines MD5Sum does not match the expectation from the config file");
 	throw MaCh3Exception(__FILE__, __LINE__);
       }
     }
-  } else {
-    fInputSplines = "";
+
+    fInputSplines.push_back(InputSplineFile);
   }
 
   //DB Input file containing the detector systematic spectra ratios, with the expectation that HistogramTitle is formatted as SYSTEMATICNAME_SAMPLENAME
@@ -174,6 +174,11 @@ void SampleHandlerAtm::InititialiseData() {
 void SampleHandlerAtm::SetupSplines() {
   //DB Because the event-by-event spline weight load-in is not "easily" supported by Core, do manual load-in using DUNE tools
   if(ParHandler->GetNumParamsFromSampleName(SampleHandlerName, kSpline) > 0) {
+    if (fInputSplines.size() == 0) {
+      MACH3LOG_ERROR("Spline parameters defined in the config but no spline input files specified");
+      throw MaCh3Exception(__FILE__, __LINE__);
+    }
+    
     MACH3LOG_INFO("Found {} splines for this sample so I will create a spline object", ParHandler->GetNumParamsFromSampleName(SampleHandlerName, kSpline));
     auto SplineFactory = SplineHandlerFactoryDUNE(ParHandler, Modes.get(), dunemcSamples, fInputSplines, SampleHandlerName);
 

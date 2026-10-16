@@ -136,7 +136,7 @@ protected:
   double ExposureScaling;
 
   /// Path to the input spline file (for per-event spline mode)
-  std::string fInputSplines;
+  std::vector<std::string> fInputSplines;
   
   /// Enums to define event selections
   enum EventSelectionIndices {

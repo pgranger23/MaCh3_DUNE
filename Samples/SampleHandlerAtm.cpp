@@ -78,8 +78,10 @@ void SampleHandlerAtm::Init() {
   //=============================================================
   
   // Per-event spline weights (optional)
-  if (SampleManager->raw()["InputFiles"]["InputSplines"]) {
-    std::string InputSplineFile = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplines"],__FILE__,__LINE__);
+  std::string InputSplineFile = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplines"],__FILE__,__LINE__);
+  std::string SplineInputFileDirectory = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplineDirectory"],__FILE__,__LINE__);
+  
+  if (InputSplineFile!="") {
     std::string InputSplinesMD5Sum = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplinesMD5Sum"],__FILE__,__LINE__);
 
     if (InputSplineFile!="") {
@@ -90,6 +92,18 @@ void SampleHandlerAtm::Init() {
     }
 
     fInputSplines.push_back(InputSplineFile);
+  } else if (SplineInputFileDirectory!="") {
+    //If reading multiple spline files
+    std::filesystem::path directory = SplineInputFileDirectory;
+    
+    for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+      if (entry.is_regular_file() && entry.path().extension()==".root") {
+	std::string FileName = entry.path();
+	 fInputSplines.push_back(FileName);
+      }
+    }
+  } else {
+    MACH3LOG_INFO("No spline files provided");
   }
 
   //DB Input file containing the detector systematic spectra ratios, with the expectation that HistogramTitle is formatted as SYSTEMATICNAME_SAMPLENAME

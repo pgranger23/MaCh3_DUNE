@@ -92,7 +92,7 @@ SET(MaCh3_FOUND FALSE)
 # don't find mach3 core from a previous build in this directory or sad times occur
 LIST(APPEND CMAKE_IGNORE_PATH ${CMAKE_CURRENT_BINARY_DIR})
 find_package(MaCh3 2.6.0 EXACT QUIET)
-set(MaCh3_CORE_BRANCH v2.6.0 CACHE STRING "Specify the MaCh3 core branch to use")
+set(MaCh3_CORE_BRANCH v2.6.0_patches CACHE STRING "Specify the MaCh3 core branch to use")
 message(STATUS "Using MaCh3_CORE_BRANCH: ${MaCh3_CORE_BRANCH}")
 
 if(NOT MaCh3_FOUND)

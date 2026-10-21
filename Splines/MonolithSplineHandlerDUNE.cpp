@@ -104,17 +104,27 @@ MonolithSplineHandlerDUNE::GetInitParamsFromConfig(const std::vector<SplineParam
     
   }
   
-  MACH3LOG_INFO("Available splines in input: {} ({} files)", spline_filename, files->GetEntries());
-  MACH3LOG_INFO("╔═══════════════════════════════════════════════════════════════════════════════╗");
-  MACH3LOG_INFO("║ {:^76} ║", "Spline Parameters from File");
-  MACH3LOG_INFO("╠═══════════════════════════════════════════════════════════════════════════════╣");
-  MACH3LOG_INFO("║ {:<40} │ {:>10} │ {:>10} │ {:>8} ║", "Name", "CV", "Knots", "IsCor");
-  MACH3LOG_INFO("╠═══════════════════════════════════════════════════════════════════════════════╣");
+  size_t MaxSizeOfName = 30;
   for (const auto& param : fileSplinePars) {
-    MACH3LOG_INFO("║ {:<40} │ {:>10.3f} │ {:>10} │ {:>8} ║", param.name, param.cv, param.knots.size(), param.isCorrection ? "true" : "false");
+    MaxSizeOfName = std::max(MaxSizeOfName,param.name.length());
   }
-  MACH3LOG_INFO("╚═══════════════════════════════════════════════════════════════════════════════╝");
-  MACH3LOG_INFO("Total number of unique splines: {}", fileSplinePars.size());
+  
+  // Total width of the table (including borders and padding)
+  const std::size_t TableWidth = MaxSizeOfName + 39;
+  std::string Border;
+  for (std::size_t i = 0; i < TableWidth; ++i) {
+    Border += "═";
+  }
+  MACH3LOG_INFO("Available splines in input: {} ({} files)", spline_filename, files->GetEntries());
+   MACH3LOG_INFO("╔{}╗", Border);
+  MACH3LOG_INFO("║ {:^{}} ║", "Spline Parameters from File", TableWidth - 2);
+  MACH3LOG_INFO("╠{}╣", Border);
+  MACH3LOG_INFO("║ {:<{}} │ {:>10} │ {:>10} │ {:>8} ║", "Name", MaxSizeOfName, "CV", "Knots", "IsCor");
+  MACH3LOG_INFO("╠{}╣", Border);  
+  for (const auto& param : fileSplinePars) {
+    MACH3LOG_INFO("║ {:<{}} │ {:>10.3f} │ {:>10} │ {:>8} ║", param.name, MaxSizeOfName, param.cv, param.knots.size(), param.isCorrection ? "true" : "false");
+  }
+  MACH3LOG_INFO("╚{}╝", Border);
   
   const Long64_t entries = weights.GetEntries();
   if (entries < 0) {

@@ -1113,59 +1113,59 @@ Systematics:
           - 0
         SplineName: GENIEReWeight_ICARUS_v2_multisigma_ZExpA4CCQE
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_DecayAng2MEC
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_DecayAng2MEC
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_DecayAng2MEC
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMEC
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMEC
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMEC
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMECVariationResponse
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMECVariationResponse
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMECVariationResponse
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_DecayAng2MEC
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_DecayAng2MEC
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_DecayAng2MEC
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMEC
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMEC
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMEC
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMECVariationResponse
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMECVariationResponse
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_DecayAngMECVariationResponse
 
   - Systematic:
       FlatPrior: false
@@ -1743,146 +1743,146 @@ Systematics:
           - 0
         SplineName: WSReweight_v1_surface_thickness
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: ZExpPCAWeighter_SBN_v3_Deut_b1
-        ParameterName: ZExpPCAWeighter_SBN_v3_Deut_b1
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: ZExpPCAWeighter_SBN_v3_Deut_b1
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: ZExpPCAWeighter_SBN_v3_Deut_b2
-        ParameterName: ZExpPCAWeighter_SBN_v3_Deut_b2
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: ZExpPCAWeighter_SBN_v3_Deut_b2
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: ZExpPCAWeighter_SBN_v3_Deut_b3
-        ParameterName: ZExpPCAWeighter_SBN_v3_Deut_b3
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: ZExpPCAWeighter_SBN_v3_Deut_b3
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: ZExpPCAWeighter_SBN_v3_Deut_b4
-        ParameterName: ZExpPCAWeighter_SBN_v3_Deut_b4
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: ZExpPCAWeighter_SBN_v3_Deut_b4
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: ZExpPCAWeighter_SBN_v3_MvA_b1
-        ParameterName: ZExpPCAWeighter_SBN_v3_MvA_b1
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: ZExpPCAWeighter_SBN_v3_MvA_b1
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: ZExpPCAWeighter_SBN_v3_MvA_b2
-        ParameterName: ZExpPCAWeighter_SBN_v3_MvA_b2
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: ZExpPCAWeighter_SBN_v3_MvA_b2
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: ZExpPCAWeighter_SBN_v3_MvA_b3
-        ParameterName: ZExpPCAWeighter_SBN_v3_MvA_b3
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: ZExpPCAWeighter_SBN_v3_MvA_b3
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: ZExpPCAWeighter_SBN_v3_MvA_b4
-        ParameterName: ZExpPCAWeighter_SBN_v3_MvA_b4
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: ZExpPCAWeighter_SBN_v3_MvA_b4
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: ZExpPCAWeighter_SBN_v3_Deut_b1
+#        ParameterName: ZExpPCAWeighter_SBN_v3_Deut_b1
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: ZExpPCAWeighter_SBN_v3_Deut_b1
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: ZExpPCAWeighter_SBN_v3_Deut_b2
+#        ParameterName: ZExpPCAWeighter_SBN_v3_Deut_b2
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: ZExpPCAWeighter_SBN_v3_Deut_b2
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: ZExpPCAWeighter_SBN_v3_Deut_b3
+#        ParameterName: ZExpPCAWeighter_SBN_v3_Deut_b3
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: ZExpPCAWeighter_SBN_v3_Deut_b3
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: ZExpPCAWeighter_SBN_v3_Deut_b4
+#        ParameterName: ZExpPCAWeighter_SBN_v3_Deut_b4
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: ZExpPCAWeighter_SBN_v3_Deut_b4
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: ZExpPCAWeighter_SBN_v3_MvA_b1
+#        ParameterName: ZExpPCAWeighter_SBN_v3_MvA_b1
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: ZExpPCAWeighter_SBN_v3_MvA_b1
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: ZExpPCAWeighter_SBN_v3_MvA_b2
+#        ParameterName: ZExpPCAWeighter_SBN_v3_MvA_b2
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: ZExpPCAWeighter_SBN_v3_MvA_b2
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: ZExpPCAWeighter_SBN_v3_MvA_b3
+#        ParameterName: ZExpPCAWeighter_SBN_v3_MvA_b3
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: ZExpPCAWeighter_SBN_v3_MvA_b3
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: ZExpPCAWeighter_SBN_v3_MvA_b4
+#        ParameterName: ZExpPCAWeighter_SBN_v3_MvA_b4
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: ZExpPCAWeighter_SBN_v3_MvA_b4

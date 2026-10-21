@@ -105,15 +105,15 @@ MonolithSplineHandlerDUNE::GetInitParamsFromConfig(const std::vector<SplineParam
   }
   
   MACH3LOG_INFO("Available splines in input: {} ({} files)", spline_filename, files->GetEntries());
-  MACH3LOG_INFO("╔══════════════════════════════════════════════════════════════════════════════╗");
+  MACH3LOG_INFO("╔═══════════════════════════════════════════════════════════════════════════════╗");
   MACH3LOG_INFO("║ {:^76} ║", "Spline Parameters from File");
-  MACH3LOG_INFO("╠══════════════════════════════════════════════════════════════════════════════╣");
+  MACH3LOG_INFO("╠═══════════════════════════════════════════════════════════════════════════════╣");
   MACH3LOG_INFO("║ {:<40} │ {:>10} │ {:>10} │ {:>8} ║", "Name", "CV", "Knots", "IsCor");
-  MACH3LOG_INFO("╠══════════════════════════════════════════════════════════════════════════════╣");
+  MACH3LOG_INFO("╠═══════════════════════════════════════════════════════════════════════════════╣");
   for (const auto& param : fileSplinePars) {
     MACH3LOG_INFO("║ {:<40} │ {:>10.3f} │ {:>10} │ {:>8} ║", param.name, param.cv, param.knots.size(), param.isCorrection ? "true" : "false");
   }
-  MACH3LOG_INFO("╚══════════════════════════════════════════════════════════════════════════════╝");
+  MACH3LOG_INFO("╚═══════════════════════════════════════════════════════════════════════════════╝");
   MACH3LOG_INFO("Total number of unique splines: {}", fileSplinePars.size());
   
   const Long64_t entries = weights.GetEntries();

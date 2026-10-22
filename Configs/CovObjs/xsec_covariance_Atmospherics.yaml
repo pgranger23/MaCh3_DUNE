@@ -33,275 +33,275 @@ x-anchors:
 # ==============================================================================
 Systematics:
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin0
-        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin0
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin0
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin1
-        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin1
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin1
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin2
-        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin2
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin2
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin3
-        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin3
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin3
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin4
-        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin4
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin4
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin0
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin0
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin0
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin1
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin1
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin1
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin2
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin2
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin2
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin3
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin3
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin3
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin4
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin4
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin4
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin0
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin0
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin0
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin1
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin1
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin1
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin2
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin2
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin2
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin3
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin3
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin3
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin4
-        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin4
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin4
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin0
+#        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin0
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin0
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin1
+#        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin1
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin1
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin2
+#        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin2
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin2
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin3
+#        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin3
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin3
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin4
+#        ParameterName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin4
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_HFToCRPA_q0bin4
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin0
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin0
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin0
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin1
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin1
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin1
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin2
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin2
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin2
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin3
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin3
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin3
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin4
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin4
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToHF_q0bin4
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin0
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin0
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin0
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin1
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin1
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin1
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin2
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin2
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin2
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin3
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin3
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin3
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin4
+#        ParameterName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin4
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin4
 
   - Systematic:
       FlatPrior: false
@@ -1239,275 +1239,275 @@ Systematics:
           - 0
         SplineName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Empirical
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Empirical
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Empirical
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Empirical
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Empirical
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Empirical
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Martini
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Martini
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Martini
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_Fakedial
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_Fakedial
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_Fakedial
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Martini
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Martini
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_XSecShape_CCMEC_Martini
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin0
+#        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin0
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin0
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin1
+#        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin1
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin1
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin2
+#        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin2
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin2
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin3
+#        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin3
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin3
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin0
+#        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin0
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin0
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin1
+#        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin1
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin1
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin2
+#        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin2
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin2
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin3
+#        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin3
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin3
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_Fakedial
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_Fakedial
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_Fakedial
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin0
-        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin0
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin0
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin1
-        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin1
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin1
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin2
-        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin2
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin2
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin3
-        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin3
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToMar_MECResponse_q0bin3
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin0
-        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin0
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin0
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin1
-        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin1
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin1
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin2
-        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin2
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin2
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin3
-        ParameterName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin3
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MECq0q3InterpWeighting_SBN_v3_SuSAToVal_MECResponse_q0bin3
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nu
-        ParameterName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nu
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nu
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nubar
-        ParameterName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nubar
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nubar
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenuebar_xsec_ratio
-        ParameterName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenuebar_xsec_ratio
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenuebar_xsec_ratio
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenumu_xsec_ratio
-        ParameterName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenumu_xsec_ratio
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenumu_xsec_ratio
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nu
+#        ParameterName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nu
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nu
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nubar
+#        ParameterName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nubar
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MiscInteractionSysts_DUNE_TDR_FakeData_C12ToAr40_2p2hScaling_nubar
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenuebar_xsec_ratio
+#        ParameterName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenuebar_xsec_ratio
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenuebar_xsec_ratio
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenumu_xsec_ratio
+#        ParameterName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenumu_xsec_ratio
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: MiscInteractionSysts_DUNE_TDR_FakeData_nuenumu_xsec_ratio
 
   - Systematic:
       FlatPrior: false

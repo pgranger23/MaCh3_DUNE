@@ -269,10 +269,12 @@ std::vector<struct SplineHeader> MonolithSplineHandlerDUNE::GetSplineParametersF
   
   while (reader.Next()) {
     std::string splineName = *splineNames;
+    
     if (std::find(FoundNames.begin(), FoundNames.end(), splineName) == FoundNames.end()) {
       FoundNames.push_back(splineName);
       
       SplineHeader param;
+      
       param.name = *splineNames;
       
       if (param.name.empty()) {

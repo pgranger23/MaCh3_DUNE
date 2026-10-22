@@ -13,7 +13,7 @@ InputFiles:
   EigenFileMD5Sum: "f1dd030957ce0fdc2b935619cdb08c59"
 
   # Middle Piority: Path to a single CAF file to use
-  FileName: "Inputs/Atmospherics/CAFs/merged_decaf.root"
+  FileName: "" #"Inputs/Atmospherics/CAFs/merged_decaf.root"
 
   # Lowest Priority: If there are multiple CAF files for a production, point this to that directory.
   # **Warning**: This loads any and all ROOT files in that directory so be wary of throwing many CAFs from many productions into a single directory

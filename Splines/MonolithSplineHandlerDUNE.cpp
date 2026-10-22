@@ -264,25 +264,31 @@ std::vector<struct SplineHeader> MonolithSplineHandlerDUNE::GetSplineParametersF
   TTreeReaderValue<double> splineCV(reader, "cv");
   TTreeReaderValue<bool> splineIsCorrection(reader, "isCorrection");
   TTreeReaderArray<double> splineKnots(reader, "variations");
+
+  std::vector<std::string> FoundNames;
   
   while (reader.Next()) {
-    SplineHeader param;
-    
-    param.name = *splineNames;
-    
-    if (param.name.empty()) {
-      MACH3LOG_ERROR("Empty spline name in {}", file->GetName());
-      throw MaCh3Exception(__FILE__, __LINE__);
+    std::string splineName = *splineNames;
+    if (std::find(FoundNames.begin(), FoundNames.end(), splineName) == FoundNames.end()) {
+      FoundNames.push_back(splineName);
+      
+      SplineHeader param;
+      param.name = *splineNames;
+      
+      if (param.name.empty()) {
+	MACH3LOG_ERROR("Empty spline name in {}", file->GetName());
+	throw MaCh3Exception(__FILE__, __LINE__);
+      }
+      
+      param.cv = *splineCV;
+      param.isCorrection = *splineIsCorrection;
+      
+      for (auto knot : splineKnots) {
+	param.knots.push_back(knot);
+      }
+      
+      splineParams.push_back(std::move(param));
     }
-    
-    param.cv = *splineCV;
-    param.isCorrection = *splineIsCorrection;
-    
-    for (auto knot : splineKnots) {
-      param.knots.push_back(knot);
-    }
-    
-    splineParams.push_back(std::move(param));
   }
   
   MACH3LOG_INFO("Loaded {} spline headers from {}",splineParams.size(),file->GetName());

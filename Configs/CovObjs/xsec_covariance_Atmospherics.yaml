@@ -303,23 +303,23 @@ Systematics:
 #          - 0
 #        SplineName: CCQETemplateReweight_SBN_v3_LFGToSF_q0bin4
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values_unit
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: CCQEXSecCorr_SBN_v3_CCQEXSecCorr
-        ParameterName: CCQEXSecCorr_SBN_v3_CCQEXSecCorr
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: CCQEXSecCorr_SBN_v3_CCQEXSecCorr
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values_unit
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: CCQEXSecCorr_SBN_v3_CCQEXSecCorr
+#        ParameterName: CCQEXSecCorr_SBN_v3_CCQEXSecCorr
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: CCQEXSecCorr_SBN_v3_CCQEXSecCorr
 
   - Systematic:
       FlatPrior: false
@@ -1005,41 +1005,41 @@ Systematics:
           - 0
         SplineName: GENIEReWeight_ICARUS_v2_multisigma_RDecBR1gamma
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values_unit
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_Theta_Delta2Npi
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_Theta_Delta2Npi
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_Theta_Delta2Npi
-
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values_unit
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_VecFFCCQEshape
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_VecFFCCQEshape
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_VecFFCCQEshape
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values_unit
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_Theta_Delta2Npi
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_Theta_Delta2Npi
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_Theta_Delta2Npi
+#
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values_unit
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_VecFFCCQEshape
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_VecFFCCQEshape
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_VecFFCCQEshape
 
   - Systematic:
       FlatPrior: false
@@ -1185,23 +1185,23 @@ Systematics:
           - 0
         SplineName: GENIEReWeight_ICARUS_v2_multisigma_EnergyDependence_CCMEC
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: GENIEReWeight_ICARUS_v2_multisigma_FracDelta_CCMEC
-        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_FracDelta_CCMEC
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: GENIEReWeight_ICARUS_v2_multisigma_FracDelta_CCMEC
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: GENIEReWeight_ICARUS_v2_multisigma_FracDelta_CCMEC
+#        ParameterName: GENIEReWeight_ICARUS_v2_multisigma_FracDelta_CCMEC
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: GENIEReWeight_ICARUS_v2_multisigma_FracDelta_CCMEC
 
   - Systematic:
       FlatPrior: false
@@ -1617,23 +1617,23 @@ Systematics:
           - 0
         SplineName: QEInterference_SBN_v3_QEIntf_dial_4
 
-  - Systematic:
-      FlatPrior: false
-      ParameterBounds: *default_bounds
-      ParameterValues: *default_values
-      StepScale: *default_step
-      Type: Spline
-      ParameterGroup: Xsec
-      SampleNames: *default_samples
-      Names:
-        FancyName: QEInterference_SBN_v3_QEIntf_dial_5
-        ParameterName: QEInterference_SBN_v3_QEIntf_dial_5
-      Error: 1.0
-      SplineInformation:
-        Type: PerEvent
-        Mode:
-          - 0
-        SplineName: QEInterference_SBN_v3_QEIntf_dial_5
+#  - Systematic:
+#      FlatPrior: false
+#      ParameterBounds: *default_bounds
+#      ParameterValues: *default_values
+#      StepScale: *default_step
+#      Type: Spline
+#      ParameterGroup: Xsec
+#      SampleNames: *default_samples
+#      Names:
+#        FancyName: QEInterference_SBN_v3_QEIntf_dial_5
+#        ParameterName: QEInterference_SBN_v3_QEIntf_dial_5
+#      Error: 1.0
+#      SplineInformation:
+#        Type: PerEvent
+#        Mode:
+#          - 0
+#        SplineName: QEInterference_SBN_v3_QEIntf_dial_5
 
   - Systematic:
       FlatPrior: false

@@ -20,7 +20,7 @@ InputFiles:
   FileDirectory: "" #"/exp/dune/data/users/barrowd/AtmInputs/"
 
   # Per-event cross-section spline weights
-  InputSplines: "Inputs/Atmospherics/Splines/merged_syst.root"
+  InputSplines: "" #"Inputs/Atmospherics/Splines/merged_syst.root"
   InputSplinesMD5Sum: "c35727603ee4f2c58569b906385d31c7"
 
   InputSplineDirectory: "" #"/data/t2k/users/barrowd/MaCh3/MaCh3Inputs/NewDUNE/Splines/"
@@ -37,6 +37,10 @@ InputFiles:
     #ModBoxA: ["RecoNeutrinoEnergy","RecoCosineZ"]
     ModBoxA: ["RecoHadronEnergy","RecoLeptonEnergy","RecoCosineZ"]
 
+  HONDAFluxUncerSplineFileName: "Inputs/Atmospherics/HondaFluxTotalUncertaintySplines.root"
+  HONDAFluxUncerSplineFileMD5Sum: "bfb45900294955449ca205cd3ea93b8f"
+  HONDAFluxUncerSeparationValue: 1.0 #In GeV
+  
 AnalysisOptions:
   # Multiplicative factor which scales the base exposure
   ExposureScaling: 1.0
@@ -45,18 +49,18 @@ AnalysisOptions:
   # For each event, calculate the minimum distance from any spacepoint to any TPC wall. If the minimum distance is below this value, event is classified as PC.
   FCPCSeparation: 10.0
 
+Samples:
+  - Atm_FC_numulike
+  - Atm_FC_nuelike
+  - Atm_PC_numulike
+  - Atm_PC_nuelike
+
 # Pointless for DUNE Atmospheric but needed by Core to not scream
 InputFilesDefaults: &input_files_defaults
   mtupleprefix: ""
   mtuplesuffix: ""
   splineprefix: ""
   splinesuffix: ""
-
-Samples:
-  - Atm_FC_numulike
-  - Atm_FC_nuelike
-  - Atm_PC_numulike
-  - Atm_PC_nuelike
 
 Atm_FC_nuelike:
   SampleTitle: "FC_nueselec"

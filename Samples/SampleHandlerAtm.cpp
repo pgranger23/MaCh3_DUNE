@@ -33,6 +33,7 @@ SampleHandlerAtm::~SampleHandlerAtm() {
 }
 
 void SampleHandlerAtm::Init() {
+  //=============================================================
   //DB IsELike determines which reconstruction algorithm gets applied to which samples
   std::vector<std::string> EnabledSamples = Get<std::vector<std::string>>(SampleManager->raw()["Samples"], __FILE__ , __LINE__);
   IsELike.resize(GetNSamples());
@@ -75,8 +76,8 @@ void SampleHandlerAtm::Init() {
 
   InputFileName = Get<std::string>(SampleManager->raw()["InputFiles"]["FileName"],__FILE__,__LINE__);
   InputFileDirectory = Get<std::string>(SampleManager->raw()["InputFiles"]["FileDirectory"],__FILE__,__LINE__);
-  //=============================================================
-  
+
+  //=============================================================  
   // Per-event spline weights (optional)
   std::string InputSplineFile = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplines"],__FILE__,__LINE__);
   std::string SplineInputFileDirectory = Get<std::string>(SampleManager->raw()["InputFiles"]["InputSplineDirectory"],__FILE__,__LINE__);
@@ -106,6 +107,7 @@ void SampleHandlerAtm::Init() {
     MACH3LOG_INFO("No spline files provided");
   }
 
+  //=============================================================  
   //DB Input file containing the detector systematic spectra ratios, with the expectation that HistogramTitle is formatted as SYSTEMATICNAME_SAMPLENAME
   if (SampleManager->raw()["InputFiles"]["DetectorSystematicsFileName"]) {
     fDetectorSystematicsFileName = Get<std::string>(SampleManager->raw()["InputFiles"]["DetectorSystematicsFileName"],__FILE__,__LINE__);
@@ -144,7 +146,22 @@ void SampleHandlerAtm::Init() {
   } else {
     fDetectorSystematicsFileName = "";
   }
+
+  //=============================================================
+  if (SampleManager->raw()["InputFiles"]["HONDAFluxUncerSplineFileName"]) {
+    fHONDAFluxUncerSplineFileName = Get<std::string>(SampleManager->raw()["InputFiles"]["HONDAFluxUncerSplineFileName"],__FILE__,__LINE__);
+    fHONDAFluxUncerSeparationValue = Get<double>(SampleManager->raw()["InputFiles"]["HONDAFluxUncerSeparationValue"],__FILE__,__LINE__);
+    
+    std::string HONDAFluxUncerSplineFileMD5Sum = Get<std::string>(SampleManager->raw()["InputFiles"]["HONDAFluxUncerSplineFileMD5Sum"],__FILE__,__LINE__);
+    if (fHONDAFluxUncerSplineFileName!="") {
+      if (!CompareMD5Sum(HONDAFluxUncerSplineFileMD5Sum, fHONDAFluxUncerSplineFileName)) {
+	MACH3LOG_ERROR("HONDA Flux Uncertainty Spline file MD5Sum does not match the expectation from the config file");
+        throw MaCh3Exception(__FILE__, __LINE__);
+      }
+    }
+  }
   
+  //=============================================================
   //DB Define the names of the samples we're performing event selection for
   EventSelectionNames[kEventSel_FC_NuE]  = "FC_nueselec";
   EventSelectionNames[kEventSel_FC_NuMu] = "FC_numuselec";
@@ -240,6 +257,17 @@ void SampleHandlerAtm::RegisterFunctionalParameters() {
       }
     });
   }
+
+  if (AtmFluxParameterNames.size()!=0) {
+    RegisterIndividualFunctionalParameter(dunemcSamples, AtmFluxParameterNames, [](std::vector<double> const &, dunemc_atm &Event) {      
+      Event.TotalAtmFluxSystematicWeight = 1.0;
+
+      for (size_t iWeight=0;iWeight<Event.AtmFluxSystFactors.size();iWeight++) {
+	Event.TotalAtmFluxSystematicWeight *= 1.0 + *Event.AtmFluxSystParVals[iWeight] * (Event.AtmFluxSystFactors[iWeight] - 1.0);
+      }
+    });
+  }
+
 }
 
 void SampleHandlerAtm::AddAdditionalWeightPointers() {
@@ -247,7 +275,8 @@ void SampleHandlerAtm::AddAdditionalWeightPointers() {
   for (size_t i = 0; i < dunemcSamples.size(); ++i) {
     MCEvents[i].total_weight_pointers.push_back(&(dunemcSamples[i].weights_flux));
     MCEvents[i].total_weight_pointers.push_back(&(ExposureScaling));
-    MCEvents[i].total_weight_pointers.push_back(&(dunemcSamples[i].TotalDetectorSystematicWeight));    
+    MCEvents[i].total_weight_pointers.push_back(&(dunemcSamples[i].TotalDetectorSystematicWeight));
+    MCEvents[i].total_weight_pointers.push_back(&(dunemcSamples[i].TotalAtmFluxSystematicWeight));
   }  
 }
 
@@ -530,6 +559,7 @@ int SampleHandlerAtm::SetupExperimentMC() {
 
   //DB Regardless of however the information is read in, load the detector systematic ratio factors
   SetupDetectorSystematicRatios();
+  SetupAtmFluxSplineSystematics();
 
   //DB Return the number of events loaded
   return static_cast<int>(dunemcSamples.size());
@@ -659,6 +689,87 @@ void SampleHandlerAtm::SetupDetectorSystematicRatios() {
     }
   }
   
+}
+
+void SampleHandlerAtm::SetupAtmFluxSplineSystematics() {
+  //DB Firstly set detector systematic weight to 1.0
+  for (size_t iEvent=0;iEvent<dunemcSamples.size();iEvent++) {
+    dunemcSamples[iEvent].TotalAtmFluxSystematicWeight = 1.0;
+  }
+
+  //DB Figure out whether we have detector systematics configured -- required that any Detector Systematic parameter's group is "AtmFlux"                                                                  
+  int NParams = ParHandler->GetNParameters();
+  for (int iParam=0;iParam<NParams;iParam++) {
+    if (ParHandler->IsParFromGroup(iParam,"AtmFlux")) {
+      std::string ParamName = ParHandler->GetParFancyName(iParam);
+      AtmFluxParameterNames.push_back(ParamName);
+    }
+  }
+
+  if (AtmFluxParameterNames.size()==0) {
+    return;
+  }
+
+  //====================================================================
+  
+  bool HasHondaFluxUncertainty =
+    std::find(AtmFluxParameterNames.begin(), AtmFluxParameterNames.end(),
+              "HondaFlux_TotalUncertainty_Below1GeV") != AtmFluxParameterNames.end() &&
+    std::find(AtmFluxParameterNames.begin(), AtmFluxParameterNames.end(),
+              "HondaFlux_TotalUncertainty_Above1GeV") != AtmFluxParameterNames.end();
+  
+  if ((HasHondaFluxUncertainty && fHONDAFluxUncerSplineFileName=="") || (!HasHondaFluxUncertainty && fHONDAFluxUncerSplineFileName!="")) {
+    MACH3LOG_ERROR("Bad config");
+    throw MaCh3Exception(__FILE__, __LINE__);      
+  }
+
+  if (fHONDAFluxUncerSplineFileName!="") {
+    TFile* File = new TFile(fHONDAFluxUncerSplineFileName.c_str());
+    if (!File || File->IsZombie()) {
+      MACH3LOG_ERROR("Did not find Honda Flux Uncertainty Spline file: {}",fHONDAFluxUncerSplineFileName);
+      throw MaCh3Exception(__FILE__, __LINE__);      
+    }
+
+    TSpline3* LowEnergySpline = File->Get<TSpline3>("HondaTotalUncertainty_EnergyBin_0");
+    if (!LowEnergySpline) {
+      MACH3LOG_ERROR("Did not find Honda Flux Uncertainty Spline: {}","HondaTotalUncertainty_EnergyBin_0");
+      throw MaCh3Exception(__FILE__, __LINE__);            
+    }
+    TSpline3* HighEnergySpline = File->Get<TSpline3>("HondaTotalUncertainty_EnergyBin_1");
+    if (!HighEnergySpline) {
+      MACH3LOG_ERROR("Did not find Honda Flux Uncertainty Spline: {}","HondaTotalUncertainty_EnergyBin_1");
+      throw MaCh3Exception(__FILE__, __LINE__);            
+    }
+
+    int LowEnergySystParIndex = -1;
+    int HighEnergySystParIndex = -1;
+
+    for (int iParam=0;iParam<NParams;iParam++) {
+      if (ParHandler->GetParFancyName(iParam) == "HondaFlux_TotalUncertainty_Below1GeV") LowEnergySystParIndex = iParam;
+      if (ParHandler->GetParFancyName(iParam) == "HondaFlux_TotalUncertainty_After1GeV") HighEnergySystParIndex = iParam;      
+    }
+
+    for (size_t iEvent=0;iEvent<dunemcSamples.size();iEvent++) {
+      dunemcSamples[iEvent].AtmFluxSystFactors.resize(1);
+      dunemcSamples[iEvent].AtmFluxSystParVals.resize(1);      
+      
+      double Factor = -1;
+      int ParIndex = -1;
+      
+      if (dunemcSamples[iEvent].neutrinoenergy_true < fHONDAFluxUncerSeparationValue) {
+	Factor = LowEnergySpline->Eval(dunemcSamples[iEvent].neutrinoenergy_true);
+	ParIndex = LowEnergySystParIndex;
+      } else {
+	Factor = HighEnergySpline->Eval(dunemcSamples[iEvent].neutrinoenergy_true);
+	ParIndex = HighEnergySystParIndex;	
+      }
+      
+      dunemcSamples[iEvent].AtmFluxSystFactors[0] = Factor;
+      dunemcSamples[iEvent].AtmFluxSystParVals[0] = ParHandler->RetPointer(ParIndex);
+    }
+  }
+
+  //====================================================================    
 }
 
 int SampleHandlerAtm::ReturnSampleIdentifier(std::vector<double> CVNScores, double MinDistanceToWall) {

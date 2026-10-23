@@ -1,0 +1,38 @@
+---
+Systematics:
+
+- Systematic:
+    SampleNames: ["ATM"]
+    Error: 1.0
+    FlatPrior: true
+    Names:
+      FancyName: HondaFlux_TotalUncertainty_Below1GeV
+      ParameterName: HondaFlux_TotalUncertainty_Below1GeV
+    ParameterBounds:
+    - 0.0
+    - 999.0
+    ParameterGroup: AtmFlux
+    ParameterValues:
+      Generated: 1.0
+      PreFitValue: 1.0
+    StepScale:
+      MCMC: 0.3
+    Type: Functional
+
+- Systematic:
+    SampleNames: ["ATM"]
+    Error: 1.0
+    FlatPrior: true
+    Names:
+      FancyName: HondaFlux_TotalUncertainty_Above1GeV
+      ParameterName: HondaFlux_TotalUncertainty_Above1GeV
+    ParameterBounds:
+    - 0.0
+    - 999.0
+    ParameterGroup: AtmFlux
+    ParameterValues:
+      Generated: 1.0
+      PreFitValue: 1.0
+    StepScale:
+      MCMC: 0.3
+    Type: Functional

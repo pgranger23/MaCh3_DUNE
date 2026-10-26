@@ -9,7 +9,7 @@ NuOsc:
 
 InputFiles:
   # Highest Priority: If an eigen file is provided, use that instead of reading any CAF file
-  EigenFile: "AtmSample.eig"
+  EigenFile: "Inputs/Atmospherics/CAFs/AtmSample.eig"
   EigenFileMD5Sum: "56379874d4cc9a0fbf3a189e213d6eab"
 
   # Middle Piority: Path to a single CAF file to use

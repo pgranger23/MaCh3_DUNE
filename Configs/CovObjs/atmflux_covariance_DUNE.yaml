@@ -13,8 +13,8 @@ Systematics:
     - 999.0
     ParameterGroup: AtmFlux
     ParameterValues:
-      Generated: 1.0
-      PreFitValue: 1.0
+      Generated: 0.0
+      PreFitValue: 0.0
     StepScale:
       MCMC: 0.3
     Type: Functional
@@ -31,8 +31,8 @@ Systematics:
     - 999.0
     ParameterGroup: AtmFlux
     ParameterValues:
-      Generated: 1.0
-      PreFitValue: 1.0
+      Generated: 0.0
+      PreFitValue: 0.0
     StepScale:
       MCMC: 0.3
     Type: Functional

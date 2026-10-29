@@ -29,7 +29,8 @@ public:
     kOscChannel,
     kMode,
     kTargetNucleus,
-    kMinDistToWall
+    kMinDistToWall,
+    kRecoInelasticity
   };
 
   /// @brief Convert dunemc_atm struct object to Eigen::MatrixXd and write to binary file
@@ -110,7 +111,8 @@ protected:
     {"OscillationChannel",kOscChannel},
     {"Mode",kMode},
     {"TargetNucleus", kTargetNucleus},
-    {"MinDistToWall", kMinDistToWall}    
+    {"MinDistToWall", kMinDistToWall},
+    {"RecoInelasticity", kRecoInelasticity}
   };
 
   const std::unordered_map<int, std::string> ReversedKinematicParametersDUNE = {
@@ -123,7 +125,8 @@ protected:
     {kOscChannel,"OscillationChannel"},
     {kMode,"Mode"},
     {kTargetNucleus, "TargetNucleus"},
-    {kMinDistToWall, "MinDistToWall"}
+    {kMinDistToWall, "MinDistToWall"},
+    {kRecoInelasticity, "RecoInelasticity"}
   };
   
   /// Array filled with MC samples for each oscillation channel

@@ -414,6 +414,7 @@ int SampleHandlerAtm::ReadFromEigen() {
     dunemcSamples[iEvent].neutrinoenergy_reco = Matrix(iEvent,Variables::neutrinoenergy_reco);
     dunemcSamples[iEvent].hadronicenergy_reco = Matrix(iEvent,Variables::hadronicenergy_reco);
     dunemcSamples[iEvent].leptonicenergy_reco = Matrix(iEvent,Variables::leptonicenergy_reco);
+    dunemcSamples[iEvent].inelasticity_reco = (dunemcSamples[iEvent].neutrinoenergy_reco > 0) ? dunemcSamples[iEvent].hadronicenergy_reco / dunemcSamples[iEvent].neutrinoenergy_reco : 0.;
     dunemcSamples[iEvent].coszenith_reco = Matrix(iEvent,Variables::coszenith_reco);    
     dunemcSamples[iEvent].SampleIndex = static_cast<int>(Matrix(iEvent,Variables::SampleIndex));
     dunemcSamples[iEvent].neutrinoflavour_interacting = static_cast<int>(Matrix(iEvent,Variables::neutrinoflavour_interacting));
@@ -667,6 +668,7 @@ int SampleHandlerAtm::SetupExperimentMC() {
       currentEvent_FromNuE.neutrinoenergy_reco = RecoENu;
       currentEvent_FromNuE.hadronicenergy_reco = RecoEHad;
       currentEvent_FromNuE.leptonicenergy_reco = RecoELep;            
+      currentEvent_FromNuE.inelasticity_reco = (RecoENu > 0) ? RecoEHad / RecoENu : 0.;
       currentEvent_FromNuE.coszenith_reco = RecoCZ;
       currentEvent_FromNuE.SampleIndex = SampIndex;
       currentEvent_FromNuE.neutrinoflavour_interacting = InteractingPDG;
@@ -1146,6 +1148,8 @@ const double* SampleHandlerAtm::GetPointerToKinematicParameter(const int KinPar,
     return &(dunemcSamples[iEvent].Target);
   case kMinDistToWall:
     return &(dunemcSamples[iEvent].MinDistToWall);
+  case kRecoInelasticity:
+    return &(dunemcSamples[iEvent].inelasticity_reco);
   default:
     MACH3LOG_ERROR("Unknown KinPar: {}",static_cast<int>(KinPar));
     throw MaCh3Exception(__FILE__, __LINE__);

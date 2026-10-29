@@ -13,6 +13,10 @@ struct SplineHeader {
 class MonolithSplineHandlerDUNE : virtual public UnbinnedSplineHandler {
 public:
   MonolithSplineHandlerDUNE(const std::vector<SplineParameter>& splinePars, const std::vector<uint>& eventIndices, const std::vector<std::string>& spline_filename);
+  /// @brief Construct from per-event splines built by the caller (e.g. straight from the CAF xsec_systs)
+  /// @param splinesPerEvent [event][parameter] splines, nullptr for a flat response. Ownership is taken (and the objects deleted) by UnbinnedSplineHandler
+  /// @param splineTypes Response function type of each parameter
+  MonolithSplineHandlerDUNE(std::vector<std::vector<TResponseFunction_red*> >& splinesPerEvent, const std::vector<RespFuncType>& splineTypes);
   virtual ~MonolithSplineHandlerDUNE();
   
 private:

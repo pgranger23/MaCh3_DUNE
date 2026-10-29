@@ -975,6 +975,11 @@ void SampleHandlerAtm::SetupCAFSplineDials(TFile* File) {
       Points.emplace_back(0.0, -1);
     }
     std::sort(Points.begin(), Points.end());
+    //PG Dials in physical units (e.g. WSReweight) need their nominal value as pre-fit value, otherwise the spline is extrapolated
+    const double PreFitValue = ParHandler->GetParPreFit(Par.index);
+    if (PreFitValue < Points.front().first || PreFitValue > Points.back().first) {
+      MACH3LOG_WARN("Pre-fit value {} of {} is outside its CAF knot range [{}, {}]: the response will be extrapolated", PreFitValue, DialName, Points.front().first, Points.back().first);
+    }
     for (size_t iPoint = 1; iPoint < Points.size(); iPoint++) {
       if (Points[iPoint].first == Points[iPoint-1].first) {
         MACH3LOG_ERROR("Dial {} has two variations at the same value {}", DialName, Points[iPoint].first);

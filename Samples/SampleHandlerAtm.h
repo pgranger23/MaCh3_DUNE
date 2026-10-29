@@ -160,6 +160,8 @@ protected:
   std::vector<std::pair<std::string, std::vector<float>>> fCAFDialHeaders;
   /// Per-event splines built while reading the CAFs, handed over to MonolithSplineHandlerDUNE in SetupSplines
   std::vector<std::vector<TResponseFunction_red*>> fCAFSplines;
+  /// Memory of the CAF splines (objects and knots), released once MonolithSplineHandlerDUNE has packed them
+  SplineArena fCAFSplineArena;
 
   /// Read the xsec dial headers from the globalTree of a CAF file
   std::vector<std::pair<std::string, std::vector<float>>> ReadCAFDialHeaders(TFile* File) const;

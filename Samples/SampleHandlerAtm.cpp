@@ -12,6 +12,7 @@
 #include "duneanaobj/StandardRecord/StandardRecord.h"
 
 #include <algorithm>
+#include <chrono>
 #include <spdlog/fmt/ranges.h>
 
 //Used to loop through ROOT files in a directory
@@ -21,10 +22,76 @@
 #include <Eigen/Dense>
 #include "DUNEUtils.h"
 
+#include "TBranch.h"
+#include "TChain.h"
 #include "TH2.h"
 #include "TH3.h"
+#include "TLeaf.h"
 
 #pragma GCC diagnostic pop
+
+#if defined(MaCh3_DUNE_USE_SRProxy) && (MaCh3_DUNE_USE_SRProxy==1)
+namespace {
+  /// @brief PG Reads the xsec variations of the first neutrino straight from the arrays of a flat CAF tree.
+  ///        Going through SRProxy costs a proxy lookup for each of the hundreds of weights used per entry.
+  class FlatXsecSystsReader {
+  public:
+    /// @brief Read the arrays of the current entry of the chain, attaching to its current tree when needed
+    /// @return false if the tree is not a flat CAF tree (the variations then have to be read through SRProxy)
+    bool ReadEntry(TChain* Chain) {
+      //PG TChain can reuse the address of the previous tree, so follow the file changes by tree number
+      if (Chain->GetTreeNumber() != fTreeNumber) {
+        fTreeNumber = Chain->GetTreeNumber();
+        fIsFlat = Attach(Chain->GetTree());
+      }
+      if (!fIsFlat) return false;
+      const Long64_t LocalEntry = Chain->GetTree()->GetReadEntry();
+      for (auto* Leaf : {&fDialCount, &fDialStart, &fWeightCount, &fWeightStart, &fWeights}) {
+        //PG Variable-size arrays are read with the size from their counter leaf, which must be read first
+        if (Leaf->CountBranch) Leaf->CountBranch->GetEntry(LocalEntry);
+        Leaf->Branch->GetEntry(LocalEntry);
+      }
+      fFirstDial = static_cast<const int*>(fDialStart.Leaf->GetValuePointer())[0];
+      return true;
+    }
+    /// @brief Number of dials stored for the first neutrino
+    int GetNDials() const { return static_cast<const int*>(fDialCount.Leaf->GetValuePointer())[0]; }
+    /// @brief Number of variations of a dial of the first neutrino
+    int GetNWeights(size_t iDial) const { return static_cast<const int*>(fWeightCount.Leaf->GetValuePointer())[fFirstDial + iDial]; }
+    /// @brief Weights of a dial of the first neutrino
+    const float* GetWeights(size_t iDial) const {
+      return static_cast<const float*>(fWeights.Leaf->GetValuePointer()) + static_cast<const int*>(fWeightStart.Leaf->GetValuePointer())[fFirstDial + iDial];
+    }
+
+  private:
+    struct FlatLeaf {
+      TBranch* Branch = nullptr;
+      TLeaf* Leaf = nullptr;
+      TBranch* CountBranch = nullptr;
+    };
+
+    bool Attach(TTree* Tree) {
+      const std::vector<std::pair<FlatLeaf*, std::string>> Leaves = {
+        {&fDialCount, "rec.mc.nu.xsec_systs..length"}, {&fDialStart, "rec.mc.nu.xsec_systs..idx"},
+        {&fWeightCount, "rec.mc.nu.xsec_systs.weights..length"}, {&fWeightStart, "rec.mc.nu.xsec_systs.weights..idx"},
+        {&fWeights, "rec.mc.nu.xsec_systs.weights"}};
+      for (auto& [Leaf, Name] : Leaves) {
+        Leaf->Branch = Tree->GetBranch(Name.c_str());
+        if (!Leaf->Branch) return false;
+        Leaf->Leaf = Leaf->Branch->GetLeaf(Name.c_str());
+        if (!Leaf->Leaf) return false;
+        Leaf->CountBranch = Leaf->Leaf->GetLeafCount() ? Leaf->Leaf->GetLeafCount()->GetBranch() : nullptr;
+      }
+      return true;
+    }
+
+    int fTreeNumber = -1;
+    bool fIsFlat = false;
+    int fFirstDial = 0;
+    FlatLeaf fDialCount, fDialStart, fWeightCount, fWeightStart, fWeights;
+  };
+}
+#endif
 
 SampleHandlerAtm::SampleHandlerAtm(std::string mc_version_, ParameterHandlerGeneric* xsec_cov_, const std::shared_ptr<OscillationHandler>&  Oscillator_) : SampleHandlerBase(mc_version_, xsec_cov_, Oscillator_) {
   //DB Register the kinematic parameter maps
@@ -247,9 +314,11 @@ void SampleHandlerAtm::SetupSplines() {
       Monolith->SetSplinePointers(SplineParPointers);
       SplineHandler = std::move(Monolith);
 
-      //PG UnbinnedSplineHandler has deleted the splines it was given, only the containers are left
+      //PG UnbinnedSplineHandler has copied the splines it was given into its own arrays
+      MACH3LOG_INFO("Releasing {:.2f} GB used to build the CAF splines", static_cast<double>(fCAFSplineArena.GetAllocatedBytes()) / 1e9);
       fCAFSplines.clear();
       fCAFSplines.shrink_to_fit();
+      fCAFSplineArena.Clear();
       InitialiseSplineObjectPerEvent();
       return;
     }
@@ -450,6 +519,8 @@ int SampleHandlerAtm::SetupExperimentMC() {
     std::vector<std::unique_ptr<ReusableSpline>> CAFSplineBuilders;
     std::vector<std::vector<double>> CAFKnotWeights;
     std::vector<size_t> nNonFiniteCAFWeights;
+    std::chrono::duration<double> CAFSplineTime{0};
+    FlatXsecSystsReader FlatSystsReader;
     if (fSplinesFromCAF) {
       cafTree->LoadTree(0);
       SetupCAFSplineDials(cafTree->GetCurrentFile());
@@ -623,20 +694,28 @@ int SampleHandlerAtm::SetupExperimentMC() {
 #if defined(MaCh3_DUNE_USE_SRProxy) && (MaCh3_DUNE_USE_SRProxy==1)
       //PG Build this entry's splines from its xsec variations, in the same order as the events above
       if (BuildCAFSplines) {
-	auto const& XsecSysts = sr->mc.nu[0].xsec_systs;
-	if (XsecSysts.size() != fCAFDialHeaders.size()) {
-	  MACH3LOG_ERROR("Entry {} has {} xsec dials but the globalTree lists {}", iTreeEntry, XsecSysts.size(), fCAFDialHeaders.size());
+	const auto CAFSplineStart = std::chrono::steady_clock::now();
+	//PG SRProxy cannot read the xsec variations (vectors inside a vector element) from nested CAFs, so they must be flat
+	if (!FlatSystsReader.ReadEntry(cafTree)) {
+	  MACH3LOG_ERROR("InputFiles:SplinesFromCAF needs flat CAF files, {} is not one: convert it to the flat layout first", cafTree->GetCurrentFile()->GetName());
+	  throw MaCh3Exception(__FILE__, __LINE__);
+	}
+	const size_t nDials = static_cast<size_t>(FlatSystsReader.GetNDials());
+	if (nDials != fCAFDialHeaders.size()) {
+	  MACH3LOG_ERROR("Entry {} has {} xsec dials but the globalTree lists {}", iTreeEntry, nDials, fCAFDialHeaders.size());
 	  throw MaCh3Exception(__FILE__, __LINE__);
 	}
 
 	std::vector<TResponseFunction_red*> EntrySplines(fCAFSplineDials.size(), nullptr);
+	std::vector<TResponseFunction_red*> CopiedSplines(fCAFSplineDials.size(), nullptr);
 	for (size_t iDial = 0; iDial < fCAFSplineDials.size(); iDial++) {
 	  auto const& Dial = fCAFSplineDials[iDial];
-	  auto const& Weights = XsecSysts[Dial.CAFIndex].weights;
+	  const size_t nWeights = static_cast<size_t>(FlatSystsReader.GetNWeights(Dial.CAFIndex));
+	  const float* Weights = FlatSystsReader.GetWeights(Dial.CAFIndex);
 	  //PG A dial that was not evaluated for this event has no weights: flat response
-	  if (Weights.size() == 0) continue;
-	  if (Weights.size() != Dial.nCAFVariations) {
-	    MACH3LOG_ERROR("Entry {} has {} variations for dial {} but the globalTree lists {}", iTreeEntry, Weights.size(), fCAFDialHeaders[Dial.CAFIndex].first, Dial.nCAFVariations);
+	  if (nWeights == 0) continue;
+	  if (nWeights != Dial.nCAFVariations) {
+	    MACH3LOG_ERROR("Entry {} has {} variations for dial {} but the globalTree lists {}", iTreeEntry, nWeights, fCAFDialHeaders[Dial.CAFIndex].first, Dial.nCAFVariations);
 	    throw MaCh3Exception(__FILE__, __LINE__);
 	  }
 
@@ -656,21 +735,23 @@ int SampleHandlerAtm::SetupExperimentMC() {
 
 	  CAFSplineBuilders[iDial]->SetVariationWeights(KnotWeights);
 	  CAFSplineBuilders[iDial]->Refresh();
-	  EntrySplines[iDial] = new TSpline3_redDUNE(CAFSplineBuilders[iDial].get());
+	  //PG The nue- and numu-flux copies of the entry share the same knots, stored once in the arena
+	  TSpline3_redShared* Spline = TSpline3_redShared::Create(fCAFSplineArena, CAFSplineBuilders[iDial].get());
+	  EntrySplines[iDial] = Spline;
+	  CopiedSplines[iDial] = TSpline3_redShared::Share(fCAFSplineArena, *Spline);
 	}
 
-	//PG The nue- and numu-flux copies of the entry each need their own splines as UnbinnedSplineHandler deletes them
-	std::vector<TResponseFunction_red*> CopiedSplines(EntrySplines.size(), nullptr);
-	for (size_t iDial = 0; iDial < EntrySplines.size(); iDial++) {
-	  if (EntrySplines[iDial]) CopiedSplines[iDial] = new TSpline3_redDUNE(*static_cast<TSpline3_redDUNE*>(EntrySplines[iDial]));
-	}
 	fCAFSplines.emplace_back(std::move(EntrySplines));
 	fCAFSplines.emplace_back(std::move(CopiedSplines));
+	CAFSplineTime += std::chrono::steady_clock::now() - CAFSplineStart;
       }
 #endif
     }
 
 #if defined(MaCh3_DUNE_USE_SRProxy) && (MaCh3_DUNE_USE_SRProxy==1)
+    if (BuildCAFSplines) {
+      MACH3LOG_INFO("Read the CAF xsec variations and built the splines in {:.1f} s ({:.2f} GB)", CAFSplineTime.count(), static_cast<double>(fCAFSplineArena.GetAllocatedBytes()) / 1e9);
+    }
     for (size_t iDial = 0; iDial < nNonFiniteCAFWeights.size(); iDial++) {
       if (nNonFiniteCAFWeights[iDial] > 0) {
         MACH3LOG_WARN("Replaced {} non-finite CAF variation weights of dial {} with 1.0", nNonFiniteCAFWeights[iDial], fCAFDialHeaders[fCAFSplineDials[iDial].CAFIndex].first);

@@ -1023,7 +1023,7 @@ void SampleHandlerAtm::SetupCAFSplineDials(TFile* File) {
 
   const std::vector<SplineParameter> SplinePars = ParHandler->GetSplineParsFromSampleName(SampleHandlerName);
   if (SplinePars.empty()) {
-    MACH3LOG_WARN("InputFiles:SplinesFromCAF is set but no spline parameter applies to sample {}", SampleHandlerName);
+    MACH3LOG_INFO("No spline parameter applies to sample {}: no splines to build from the CAFs", SampleHandlerName);
     return;
   }
   MACH3LOG_INFO("Found {} xsec dials in the CAF globalTree, matching them to {} spline parameters", fCAFDialHeaders.size(), SplinePars.size());
